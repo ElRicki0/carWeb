@@ -10,9 +10,9 @@
 </head>
 
 <body class="">
+
     <header>
-        <!-- Contenido de la barra de navegación -->
-        <nav class="navbar bg-body-tertiary fixed-top">
+        <nav class="navbar bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="dashboard.html">CarWeb</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#contentMenu"
@@ -22,7 +22,7 @@
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="contentMenu"
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
-                        <h3 class="offcanvas-title" id="offcanvasNavbarLabel">Admin Menu</h5>
+                        <h3 class="offcanvas-title" id="offcanvasNavbarLabel">CarWeb Menu</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                 aria-label="Close"></button>
                     </div>
@@ -68,10 +68,48 @@
             </div>
         </nav>
     </header>
-    <main class="text-center">
 
+    <main class="">
+
+        <!-- ? Principal information -->
+        <div class="d-flex flex-column flex-lg-row mt-5 text-center p-3">
+            <div class=" flex-fill card shadow">Contenedor 1</div>
+            <div class="flex-fill card shadow">Contenedor 2</div>
+        </div>
+
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const ctx = document.getElementById('myChart');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+        <script src="../../resources/js/bootstrap.min.js"></script>
+        <!-- Carga como módulo -->
+        <script type="module" src="../resources/js/charts.js"></script>
     </main>
-    <script src="../../resources/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
