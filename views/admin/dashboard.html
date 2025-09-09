@@ -75,6 +75,8 @@
         <div class="d-flex flex-column flex-lg-row mt-5 text-center p-3">
             <div class=" flex-fill card shadow">Contenedor 1</div>
             <div class="flex-fill card shadow">Contenedor 2</div>
+        <a name="botoncito" id="botoncito" class="btn btn-primary" href="#" role="button">Button</a>
+
         </div>
 
         <div>
@@ -105,9 +107,18 @@
                 }
             });
         </script>
-        <script src="../../resources/js/bootstrap.min.js"></script>
-        <!-- Carga como módulo -->
-        <script type="module" src="../resources/js/charts.js"></script>
+
+        <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+        <!-- Llamada al framework y librería de mensajes -->
+        <script src="../../resources/js/bootstrap/bootstrap.min.js"></script>
+        <script src="../../resources/js/sweetAlert2/sweetalert2@11.js"></script>
+        <!-- Llamada al controlador general de la aplicación -->
+        <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+        <!-- Llamada al controlador del sitio privado -->
+        <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
+        <!-- Llamada al controlador de la página web -->
+        <script src="../../controllers/admin/dashboard.js"></script>
+        <!-- ! cambiar el link js para el controntrolador -->
     </main>
 
 </body>
