@@ -1,0 +1,6 @@
+DROP DATABASE if EXISTS CarWebDB;
+
+CREATE DATABASE CarWebDB;
+
+CREATE TABLE tb_administrator [
+]
