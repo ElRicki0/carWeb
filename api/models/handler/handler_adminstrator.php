@@ -9,10 +9,14 @@ class AdministratorHandler
     // declaraciones de variables
     protected $id = null;
     protected $name = null;
-    protected $username = null;
-    protected $password = null;
     protected $email = null;
     protected $picture = null;
+    protected $phone = null;
+    protected $username = null;
+    protected $password = null;
+    protected $status = null;
+    protected $created = null;
+    protected $edited = null;
     // protected $phone = null;
 
     // Constante para establecer la ruta de las imágenes.
@@ -28,7 +32,7 @@ class AdministratorHandler
             return false;
         } elseif (password_verify($password, $data['password_administrator'])) {
             $_SESSION['idAdministrator'] = $data['id_administrator'];
-            $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+            $_SESSION['aliasAdministrator'] = $data['username_administrator'];
             return true;
         } else {
             return false;
@@ -42,10 +46,10 @@ class AdministratorHandler
     {
         $sql = 'INSERT INTO `tb_administrator`(
                     `name_administrator`,
+                    `email_administrator`,
+                    `phone_administrator`,
                     `username_administrator`,
-                    `password_administrator`,
-                    `picture_administrator`,
-                    `email_administrator`
+                    `password_administrator`
                 )
                 VALUES(
                     ?,
@@ -54,8 +58,17 @@ class AdministratorHandler
                     ?,
                     ?
                 )';
-        $params = array($this->name, $this->username, $this->password, $this->picture, $this->email);
+        $params = array($this->name,  $this->email, $this->phone, $this->username, $this->password);
         return Database::executeRow($sql, $params);
+    }
+
+    public function readAll()
+    {
+        $sql = 'SELECT
+                    `id_administrator` as `idk`
+                FROM
+                    `tb_administrator`';
+        return Database::getRows($sql);
     }
 
     // Cambia la contraseña del administrador actual y actualiza la fecha y el código.

@@ -3,7 +3,7 @@
 */
 
 // Constante para establecer la ruta base del servidor.
-const SERVER_URL = 'http://localhost/CORDEROWEB/api/';/*
+const SERVER_URL = 'http://localhost/carWeb/api/';/*
 *   CONTROLADOR DE USO GENERAL EN TODAS LAS PÁGINAS WEB.
 
 /*

@@ -4,7 +4,7 @@
 */
 
 // Constante para completar la ruta de la API.
-const USER_API = 'services/admin/administrator.php';
+const USER_API = "services/admin/administrator.php";
 // Constante para establecer el elemento del contenido principal.
 const MAIN = document.querySelector('main');
 MAIN.style.paddingTop = '75px';
@@ -32,7 +32,7 @@ const loadTemplate = async () => {
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', ``);
         } else {
-            sweetAlert(3, DATA.error, false, 'index.html');
+            sweetAlert(3, DATA.error, 'index.html');
         }
     } else {
         // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.

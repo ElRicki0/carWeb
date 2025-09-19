@@ -300,8 +300,10 @@ class Validator
     */
     public static function validatePhone($value)
     {
-        // Se verifica que el número tenga el formato 0000-0000 y que inicie con 2, 6 o 7.
-        if (preg_match('/^[2,6,7]{1}[0-9]{3}[-][0-9]{4}$/', $value)) {
+        // Expresión regular para formato estadounidense
+        $pattern = '/^(\+1\s?)?\(?[2-9][0-9]{2}\)?[\s.-]?[2-9][0-9]{2}[\s.-]?[0-9]{4}$/';
+
+        if (preg_match($pattern, $value)) {
             return true;
         } else {
             return false;
