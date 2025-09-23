@@ -25,14 +25,20 @@ class AdministratorHandler
     // método para comprobar la existencia de un administrador 
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT `id_administrator`, `username_administrator`, `password_administrator` 
-                FROM `tb_administrator` WHERE `user_name` = ?';
+        $sql = 'SELECT
+                    `id_administrator`,
+                    `username_administrator`,
+                    `password_administrator`
+                FROM
+                    `tb_administrator`
+                WHERE
+                    `username_administrator` = ?';
         $params = array($username);
         if (!($data = Database::getRow($sql, $params))) {
             return false;
         } elseif (password_verify($password, $data['password_administrator'])) {
             $_SESSION['idAdministrator'] = $data['id_administrator'];
-            $_SESSION['aliasAdministrator'] = $data['username_administrator'];
+            $_SESSION['usernameAdministrator'] = $data['username_administrator'];
             return true;
         } else {
             return false;

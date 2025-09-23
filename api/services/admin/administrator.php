@@ -16,15 +16,15 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'getUser':
-                if (isset($_SESSION['aliasAdministrator'])) {
+                if (isset($_SESSION['usernameAdministrator'])) {
                     $result['status'] = 1;
-                    $result['username'] = $_SESSION['aliasAdministrator'];
+                    $result['username'] = $_SESSION['usernameAdministrator'];
                 } else {
-                    $result['error'] = 'Correo de administrador indefinido';
+                    $result['error'] = 'Invalid Username';
                 }
                 break;
             default:
-                $result['error'] = 'acción no disponible dentro de la session';
+                $result['error'] = 'Action not available inside the session';
                 break;
         }
     } else {
@@ -55,6 +55,15 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Administrator successfully registered';
                 } else {
                     $result['error'] =  'A problem occurred while registering the administrator';
+                }
+                break;
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                if ($administrator->checkUser($_POST['usernameAdmin'], $_POST['passwordAdmin'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Login Successfully';
+                } else {
+                    $result['error'] = 'Invalid username or password';
                 }
                 break;
             default:
