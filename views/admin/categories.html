@@ -64,8 +64,86 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
+
+        <!-- Modal Body -->
+        <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+        <div class="modal fade" id="saveModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+            role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">
+                            Modal title
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="saveForm">
+                        <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                        <input type="number" class="d-none" id="idCategory" name="idCategory">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12 text-center mb-3"> <!-- Asegura el centrado de la imagen -->
+                                    <label for="inputPictureCategory" style="cursor: pointer;">
+                                        <img id="pictureCategory"
+                                            class="rounded mx-auto d-block img-fluid mt-3 border border-3 border-secondary-subtle rounded-circle imagen_R"
+                                            src="./../../resources/img/error/404Picture.png"
+                                            onerror="this.onerror=null; this.src='./../../resources/img/error/404Picture.png';"
+                                            id="imagenVisualAdmin" alt="Picture error" width="200px" height="200px">
+                                    </label>
+                                    <input id="inputPictureCategory" type="file" name="inputPictureCategory"
+                                        class="form-control d-none" accept=".png, .jpg">
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="nameCategory" class="form-label">Category Name</label>
+                                        <input type="text" class="form-control" name="nameCategory" id="nameCategory"
+                                            aria-describedby="helpId" placeholder="Category name here..." />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descriptionCategory" class="form-label">Category Description</label>
+                                        <textarea class="form-control" name="descriptionCategory"
+                                            id="descriptionCategory" rows="2"
+                                            placeholder="Category description here..."></textarea>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="typeCategory" class="form-label">Category usage type</label>
+                                        <input type="text" class="form-control" name="typeCategory" id="typeCategory"
+                                            aria-describedby="helpId" placeholder="Usage type here..." />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Category status</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="statusCategory"
+                                                id="statusActiveCategory" value="1" checked/>
+                                            <label class="form-check-label" for="statusActiveCategory">Category Visible
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="statusCategory"
+                                                id="statusInactiveCategory" value="0"  />
+                                            <label class="form-check-label" for="statusInactiveCategory">
+                                                Category no Visible
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="buttonModal">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
         <!-- Llamada al framework y librería de mensajes -->
         <script src="../../resources/js/bootstrap/bootstrap.min.js"></script>

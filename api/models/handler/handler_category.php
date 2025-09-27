@@ -33,6 +33,19 @@ class CategoriesHandler
                     ?,
                     ?,
                     ?)';
-                    $params = array();
+        $params = array($this->name, $this->description, $this->type, $this->status, $this->picture);
+        return DATABASE::executeRow($sql, $params);
+    }
+
+    public function readFilename()
+    {
+        $sql = 'SELECT
+                    `picture_category`
+                FROM
+                    `tb_categories`
+                WHERE
+                    `id_category` = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
     }
 }
