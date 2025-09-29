@@ -70,6 +70,7 @@ class CategoriesData extends CategoriesHandler
     {
         if (Validator::validateBoolean($value)) {
             $this->status = $value;
+            return true;
         } else {
             $this->data_error = 'Category status is invalid';
             return false;

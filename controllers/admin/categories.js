@@ -15,13 +15,15 @@ const SAVE_FORM = document.getElementById('saveForm'),
     INPUT_PICTURE_CATEGORY = document.getElementById('inputPictureCategory'),
     NAME_CATEGORY = document.getElementById('nameCategory'),
     TYPE_CATEGORY = document.getElementById('typeCategory'),
-    DESCRIPTION_CATEGORY = document.getElementById('descriptionCategory'),
-    STATUS_ACTIVE_CATEGORY = document.getElementById('statusCategory'),
-    STATUS_INACTIVE_CATEGORY = document.getElementById('idCategory');
+    DESCRIPTION_CATEGORY = document.getElementById('descriptionCategory');
+    // STATUS_ACTIVE_CATEGORY = document.getElementById('statusActiveCategory'),
+    // STATUS_INACTIVE_CATEGORY = document.getElementById('statusInactiveCategory'),
+    // SERVER_STATUS_CATEGORY = document.getElementById('serverStatusCategory');
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTemplate();
     MAIN_TITLE.textContent = "Categories";
+    // updateServerStatus();
 });
 
 // ? función para mostrar la imagen del input en una etiqueta image
@@ -40,6 +42,20 @@ INPUT_PICTURE_CATEGORY.addEventListener('change', function (event) {
     }
 });
 
+// Función para actualizar el valor del checkbox oculto
+// function updateServerStatus() {
+//     if (STATUS_ACTIVE_CATEGORY.checked) {
+//         SERVER_STATUS_CATEGORY.value = "1";
+//     } else if (STATUS_INACTIVE_CATEGORY.checked) {
+//         SERVER_STATUS_CATEGORY.value = "0";
+//     }
+// }
+
+// Escuchar cambios en ambos radios
+// STATUS_ACTIVE_CATEGORY.addEventListener('change', updateServerStatus);
+// STATUS_INACTIVE_CATEGORY.addEventListener('change', updateServerStatus);
+
+
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -54,6 +70,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         sweetAlert(1, DATA.message);
     } else {
         sweetAlert(2, DATA.error);
+        console.log('ERROR #001');
     }
 });
 

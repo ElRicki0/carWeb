@@ -34,7 +34,7 @@ class CategoriesHandler
                     ?,
                     ?)';
         $params = array($this->name, $this->description, $this->type, $this->status, $this->picture);
-        return DATABASE::executeRow($sql, $params);
+        return Database::executeRow($sql, $params);
     }
 
     public function readFilename()
