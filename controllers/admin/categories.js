@@ -1,7 +1,7 @@
 // ? api constants
 const CATEGORIES_API = "services/admin/category.php";
 // ? table constants
-const TABLE_BODY = document.getElementById("tableBody"),
+const CONTENT_CATEGORIES = document.getElementById('contentCategories'),
     ROWS_FOUND = document.getElementById("rowsFound");
 // ? modal content
 const SAVE_MODAL = new bootstrap.Modal("#saveModal"),
@@ -16,14 +16,13 @@ const SAVE_FORM = document.getElementById('saveForm'),
     NAME_CATEGORY = document.getElementById('nameCategory'),
     TYPE_CATEGORY = document.getElementById('typeCategory'),
     DESCRIPTION_CATEGORY = document.getElementById('descriptionCategory');
-    // STATUS_ACTIVE_CATEGORY = document.getElementById('statusActiveCategory'),
-    // STATUS_INACTIVE_CATEGORY = document.getElementById('statusInactiveCategory'),
-    // SERVER_STATUS_CATEGORY = document.getElementById('serverStatusCategory');
+// ? tipe table const
+const TABLE_TYPE = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTemplate();
     MAIN_TITLE.textContent = "Categories";
-    // updateServerStatus();
+    fillTable(null, 1);
 });
 
 // ? función para mostrar la imagen del input en una etiqueta image
@@ -41,20 +40,6 @@ INPUT_PICTURE_CATEGORY.addEventListener('change', function (event) {
         reader.readAsDataURL(event.target.files[0]);
     }
 });
-
-// Función para actualizar el valor del checkbox oculto
-// function updateServerStatus() {
-//     if (STATUS_ACTIVE_CATEGORY.checked) {
-//         SERVER_STATUS_CATEGORY.value = "1";
-//     } else if (STATUS_INACTIVE_CATEGORY.checked) {
-//         SERVER_STATUS_CATEGORY.value = "0";
-//     }
-// }
-
-// Escuchar cambios en ambos radios
-// STATUS_ACTIVE_CATEGORY.addEventListener('change', updateServerStatus);
-// STATUS_INACTIVE_CATEGORY.addEventListener('change', updateServerStatus);
-
 
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -74,13 +59,77 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-const fillTable = async (form = null) => {
-    TABLE_BODY.textContent = "";
+const fillTable = async (form = null, TABLE_TYPE) => {
+    CONTENT_CATEGORIES.innerHTML = '';
     ROWS_FOUND.textContent = "";
 
     form ? (action = "searchRows") : (action = "readAll");
+
     const DATA = await fetchData(CATEGORIES_API, action, form);
-    if (DATA) {
+
+    if (DATA.status) {
+        if (TABLE_TYPE == 1) {
+            CONTENT_CATEGORIES.innerHTML = `
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered table-light align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Category name</th>
+                            <th>Category Description</th>
+                            <th>Category Type</th>
+                            <th>Category status</th>
+                            <th>Picture</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="tableBody">
+
+                    </tbody>
+                </table>
+            </div>`;
+            const TABLE_BODY = document.getElementById("tableBody");
+            DATA.dataset.forEach(row => {
+                TABLE_BODY.innerHTML += `
+            <tr class="table-light">
+                <td>${row.name_category}</td>
+                <td>${row.description_category}</td>
+                <td>${row.usage_type_category}</td>
+                <td>${row.status_category}</td>
+                <td><img src="${SERVER_URL}images/category/${row.picture_category}" alt="Picture error" class="img-fluid" style="width: 200px"></td>
+            </tr>
+            `;
+            });
+        } else if (TABLE_TYPE == 2) {
+            // Usar una fila centrada y columnas responsivas de Bootstrap
+            CONTENT_CATEGORIES.innerHTML = `
+            <div class="row justify-content-center" id="tableBody">
+            </div>
+            `;
+            TABLE_BODY = document.getElementById("tableBody");
+            DATA.dataset.forEach(row => {
+                TABLE_BODY.innerHTML += `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                <div class="card w-100 d-flex flex-column">
+                    <div class="d-flex justify-content-center align-items-center p-3">
+                        <img src="${SERVER_URL}images/category/${row.picture_category}" class="img-fluid rounded border border-primary" alt="Picture Error" style="max-height:200px; width: auto;">
+                    </div>
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="card-title">${row.name_category}</h5>
+                            <p class="card-text">${row.description_category}</p>
+                        </div>
+                        <div>
+                            <p class="card-text"><small class="text-muted">Estado: ${row.status_category}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            });
+        }
+
+
+        ROWS_FOUND.textContent = DATA.message;
+
     } else {
     }
 };

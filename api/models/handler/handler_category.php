@@ -37,6 +37,19 @@ class CategoriesHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function readAll(){
+        $sql = 'SELECT
+                    `id_category`,
+                    `name_category`,
+                    `description_category`,
+                    `usage_type_category`,
+                    `status_category`,
+                    `picture_category`
+                FROM
+                    `tb_categories`';
+        return Database::getRows( $sql);
+    }
+
     public function readFilename()
     {
         $sql = 'SELECT

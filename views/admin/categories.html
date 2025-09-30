@@ -24,7 +24,7 @@
                             <button type="submit" class="btn btn-success">
                                 <h5><i class="bi bi-search"></i></h5>
                             </button>
-                            <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <button type="reset" class="btn btn-secondary" onclick="fillTable(null, 1)">
                                 <h5> <i class="bi bi-arrow-counterclockwise"></i></h5>
                             </button>
                             <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
@@ -36,34 +36,41 @@
                 </div>
             </form>
         </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <p id="rowsFound" class="fw-bold mt-3 mb-0">status</p>
 
-        <p id="rowsFound" class=" fw-bold mt-3">status</p>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="fillTable(null, 1)">
+                    <h4 class="p-2">
+                        <i class="bi bi-card-list"></i>
+                    </h4>
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="fillTable(null, 2)">
+                    <h4 class="p-2">
+                        <i class="bi bi-grid"></i>
+                    </h4>
+                </button>
+            </div>
+        </div>
 
         <div class="my-5" id="contentCategories">
 
-            <div class="table-responsive">
+            <!-- <div class="table-responsive">
                 <table class="table table-striped table-hover table-bordered table-light align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th>Column 1</th>
-                            <th>Column 2</th>
-                            <th>Column 3</th>
+                            <th>Category name</th>
+                            <th>Category Description</th>
+                            <th>Category Type</th>
+                            <th>Category status</th>
+                            <th>Picture</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="tableBody">
-                        <tr class="table-light">
-                            <td scope="row">Item</td>
-                            <td>Item</td>
-                            <td>Item</td>
-                        </tr>
-                        <tr class="table-light">
-                            <td scope="row">Item</td>
-                            <td>Item</td>
-                            <td>Item</td>
-                        </tr>
+
                     </tbody>
                 </table>
-            </div>
+            </div> -->
         </div>
 
         <!-- Modal Body -->
@@ -116,7 +123,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Category status</label>
-                                        
+
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="statusCategory"
                                                 id="statusCategory" checked value="1" />

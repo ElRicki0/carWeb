@@ -10,7 +10,7 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idAdministrator'])) {  
+    if (isset($_SESSION['idAdministrator'])) {
         switch ($_GET['action']) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
@@ -20,11 +20,11 @@ if (isset($_GET['action'])) {
                     !$category->setName($_POST['nameCategory']) or
                     !$category->setDescription($_POST['descriptionCategory']) or
                     !$category->setType($_POST['typeCategory']) or
-                    !$category->setStatus($_POST['statusCategory']) 
-                    // !$category->setPicture($_FILES['inputPictureCategory'])
+                    !$category->setStatus($_POST['statusCategory']) or
+                    !$category->setPicture($_FILES['inputPictureCategory'])
                 ) {
                     $result['error'] = '$category->getDataError()';
-                    
+
                 } elseif ($category->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Category successfully created';
@@ -34,7 +34,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'A problem occurred while registering the category';
                 }
                 break;
+            case 'readAll':
+                if ($result['dataset'] = $category->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = count($result['dataset']) . ' records found';
+                } else {
+                    $result['error'] = 'Currently there are no records';
+                }
 
+                break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
