@@ -13,7 +13,7 @@ const SERVER_URL = 'http://localhost/carWeb/api/';/*
 *   Retorno: resultado de la promesa.
 */
 const confirmAction = (message) => {
-    return swal.fire({
+    return Swal.fire({
         title: 'Warning!',
         icon: 'warning',
         text: message,
