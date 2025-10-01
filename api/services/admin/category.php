@@ -12,6 +12,16 @@ if (isset($_GET['action'])) {
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idAdministrator'])) {
         switch ($_GET['action']) {
+            case 'searchRows':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $category->searchRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = count($result['dataset']) . ' records found';
+                } else {
+                    $result['error'] = 'Currently there are no records';
+                }
+                break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 // echo($_POST['statusCategory']);
@@ -23,7 +33,7 @@ if (isset($_GET['action'])) {
                     !$category->setStatus($_POST['statusCategory']) or
                     !$category->setPicture($_FILES['inputPictureCategory'])
                 ) {
-                    $result['error'] = '$category->getDataError()';
+                    $result['error'] = $category->getDataError();
 
                 } elseif ($category->createRow()) {
                     $result['status'] = 1;
@@ -41,8 +51,47 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'Currently there are no records';
                 }
-
                 break;
+            case 'readOne':
+                if (!$category->setId($_POST['idCategory'])) {
+                    $result['error'] = $category->getDataError();
+                } elseif ($result['dataset'] = $category->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error to read the category';
+                }
+                break;
+            case 'updateRow':
+                if (
+                    !$category->setId($_POST['idCategory']) or
+                    !$category->setName($_POST['nameCategory']) or
+                    !$category->setDescription($_POST['descriptionCategory']) or
+                    !$category->setType($_POST['typeCategory']) or
+                    !$category->setStatus($_POST['statusCategory']) or
+                    !$category->setPicture($_FILES['inputPictureCategory'])
+                ) {
+                    $result['error'] = $category->getDataError();
+                } else if ($category->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Category successfully updated';
+                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureCategory'], $category::PICTURE_PATH, $category->getFilename());
+                } else {
+                    $result['error'] = 'A problem occurred while updating the category';
+                }
+                break;
+                case 'deleteRow':
+                    if (!$category->setId($_POST['idCategory'])) {
+                        $result['error'] = $category->getDataError();
+                    } elseif($category->deleteRow()){
+                        $result['status'] = 1;
+                        $result['message'] = 'Category deleted successfully';
+                        $result['fileStatus'] = Validator::deleteFile($category::PICTURE_PATH, $category->getFilename());
+                    } 
+                    else {
+                        $result['error'] = 'A problem occurred while deleting the category';
+                    }
+                    
+                    break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;

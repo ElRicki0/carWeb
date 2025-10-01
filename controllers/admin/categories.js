@@ -1,5 +1,7 @@
 // ? api constants
 const CATEGORIES_API = "services/admin/category.php";
+// ? Constante para establecer el formulario de buscar.
+const SEARCH_FORM = document.getElementById('searchForm');
 // ? table constants
 const CONTENT_CATEGORIES = document.getElementById('contentCategories'),
     ROWS_FOUND = document.getElementById("rowsFound");
@@ -15,14 +17,16 @@ const SAVE_FORM = document.getElementById('saveForm'),
     INPUT_PICTURE_CATEGORY = document.getElementById('inputPictureCategory'),
     NAME_CATEGORY = document.getElementById('nameCategory'),
     TYPE_CATEGORY = document.getElementById('typeCategory'),
-    DESCRIPTION_CATEGORY = document.getElementById('descriptionCategory');
+    DESCRIPTION_CATEGORY = document.getElementById('descriptionCategory'),
+    STATUS_CATEGORY = document.getElementById('statusCategory'),
+    STATUS_CATEGORY2 = document.getElementById('statusCategory2');
 // ? tipe table const
-const TABLE_TYPE = 1;
+let TABLE_TYPE = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTemplate();
     MAIN_TITLE.textContent = "Categories";
-    fillTable(null, 1);
+    fillTable(null, TABLE_TYPE);
 });
 
 // ? función para mostrar la imagen del input en una etiqueta image
@@ -52,12 +56,35 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
     if (DATA.status) {
         SAVE_MODAL.hide();
+        fillTable(null, TABLE_TYPE);
         sweetAlert(1, DATA.message);
     } else {
         sweetAlert(2, DATA.error);
         console.log('ERROR #001');
     }
 });
+
+// Método del evento para cuando se envía el formulario de buscar.
+SEARCH_FORM.addEventListener('submit', (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SEARCH_FORM);
+    // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+    fillTable(FORM, TABLE_TYPE);
+});
+
+const changeTableType = (value) => {
+    if (value === 1 || value === 2) {
+        TABLE_TYPE = value;
+        fillTable(null, TABLE_TYPE);
+        console.log('el valor de la tabla es el: ' + TABLE_TYPE);
+        return TABLE_TYPE;
+    } else {
+        fillTable(null, TABLE_TYPE);
+        console.log('el valor de la tabla es el: ' + TABLE_TYPE);
+    }
+};
 
 const fillTable = async (form = null, TABLE_TYPE) => {
     CONTENT_CATEGORIES.innerHTML = '';
@@ -77,8 +104,9 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                             <th>Category name</th>
                             <th>Category Description</th>
                             <th>Category Type</th>
-                            <th>Category status</th>
+                            <th>Status</th>
                             <th>Picture</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider" id="tableBody">
@@ -88,13 +116,21 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             </div>`;
             const TABLE_BODY = document.getElementById("tableBody");
             DATA.dataset.forEach(row => {
+                if (row.status_category == 1) {
+                    visualization = '<i class="bi bi-eye-fill"></i>'
+                } else if (row.status_category == 0) {
+                    visualization = '<i class="bi bi-eye-slash-fill"></i>'
+                }
                 TABLE_BODY.innerHTML += `
             <tr class="table-light">
                 <td>${row.name_category}</td>
                 <td>${row.description_category}</td>
                 <td>${row.usage_type_category}</td>
-                <td>${row.status_category}</td>
+                <td>${visualization}</td>
                 <td><img src="${SERVER_URL}images/category/${row.picture_category}" alt="Picture error" class="img-fluid" style="width: 200px"></td>
+                <td><button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_category})"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_category})"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_category})">${visualization}</button></td>
             </tr>
             `;
             });
@@ -106,6 +142,11 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             `;
             TABLE_BODY = document.getElementById("tableBody");
             DATA.dataset.forEach(row => {
+                if (row.status_category == 1) {
+                    visualization = '<i class="bi bi-eye-fill"></i>'
+                } else if (row.status_category == 0) {
+                    visualization = '<i class="bi bi-eye-slash-fill"></i>'
+                }
                 TABLE_BODY.innerHTML += `
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                 <div class="card w-100 d-flex flex-column">
@@ -118,7 +159,12 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                             <p class="card-text">${row.description_category}</p>
                         </div>
                         <div>
-                            <p class="card-text"><small class="text-muted">Estado: ${row.status_category}</small></p>
+                            <p class="card-text"><small class="text-muted">Estado: ${visualization}</small></p>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_category})"><i class="bi bi-pencil-square"></i></button>
+                            <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_category})"><i class="bi bi-trash"></i></button>
+                            <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_category})"> ${visualization}</button>
                         </div>
                     </div>
                 </div>
@@ -126,11 +172,10 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             `;
             });
         }
-
-
         ROWS_FOUND.textContent = DATA.message;
-
     } else {
+        ROWS_FOUND.textContent = DATA.error;
+        sweetAlert(2, DATA.error);
     }
 };
 
@@ -142,6 +187,44 @@ const openCreate = () => {
     SAVE_FORM.reset();
 };
 
-const closeModal = () => {
+const openUpdate = async (id) => {
+    const FORM = new FormData();
+    FORM.append('idCategory', id);
 
+    const DATA = await fetchData(CATEGORIES_API, 'readOne', FORM);
+    if (DATA.status) {
+        SAVE_MODAL.show();
+        MODAL_TITLE.textContent = 'Update information';
+        SAVE_FORM.reset();
+        const ROW = DATA.dataset;
+        ID_CATEGORY.value = ROW.id_category;
+        NAME_CATEGORY.value = ROW.name_category;
+        DESCRIPTION_CATEGORY.value = ROW.description_category;
+        TYPE_CATEGORY.value = ROW.usage_type_category;
+        if (ROW.status_category == 1) {
+            STATUS_CATEGORY.checked = true;
+            STATUS_CATEGORY2.checked = false;
+        } else {
+            STATUS_CATEGORY.checked = false;
+            STATUS_CATEGORY2.checked = true;
+        }
+    } else {
+        sweetAlert(2, DATA.error);
+    }
+};
+
+const openDelete = async (id) => {
+    const RESPONSE = await confirmAction('Do you want to delete this record?');
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idCategory', id);
+        const DATA = await fetchData(CATEGORIES_API, 'deleteRow', FORM);
+        if (DATA.status) {
+            await sweetAlert(1, DATA.message);
+            fillTable(null, TABLE_TYPE);
+        } else {
+            sweetAlert(2, DATA.error);
+        }
+    }
 };

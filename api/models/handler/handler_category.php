@@ -18,6 +18,26 @@ class CategoriesHandler
 
     // todo SCRUD methods (search, create, read, update, delete)
 
+    public function searchRows()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT
+                    `id_category`,
+                    `name_category`,
+                    `description_category`,
+                    `usage_type_category`,
+                    `status_category`,
+                    `picture_category`
+                FROM
+                    `tb_categories`
+                WHERE
+                    `name_category` LIKE ? OR
+                    `description_category` LIKE ? OR
+                    `usage_type_category` LIKE ?';
+        $params = array($value, $value, $value);
+        return Database::getRows($sql, $params);
+    }
+
     public function createRow()
     {
         $sql = 'INSERT INTO `tb_categories`(
@@ -37,7 +57,8 @@ class CategoriesHandler
         return Database::executeRow($sql, $params);
     }
 
-    public function readAll(){
+    public function readAll()
+    {
         $sql = 'SELECT
                     `id_category`,
                     `name_category`,
@@ -47,7 +68,50 @@ class CategoriesHandler
                     `picture_category`
                 FROM
                     `tb_categories`';
-        return Database::getRows( $sql);
+        return Database::getRows($sql);
+    }
+
+    public function readOne()
+    {
+        $sql = 'SELECT
+                    `id_category`,
+                    `name_category`,
+                    `description_category`,
+                    `usage_type_category`,
+                    `status_category`,
+                    `picture_category`
+                FROM
+                    `tb_categories`
+                WHERE `id_category` = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
+    }
+
+    public function updateRow()
+    {
+        $sql = 'UPDATE
+                    `tb_categories`
+                SET
+                    `name_category` = ?,
+                    `description_category` = ?,
+                    `usage_type_category` = ?,
+                    `status_category` = ?,
+                    `picture_category` = ?
+                WHERE
+                    `id_category`= ?';
+        $params = array($this->name, $this->description, $this->type, $this->status, $this->picture, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteRow()
+    {
+        $sql = 'DELETE
+                FROM
+                    `tb_categories`
+                WHERE
+                    `id_category` =?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
     }
 
     public function readFilename()
