@@ -82,7 +82,7 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
     let content = '';
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje.
     if (DATA.status) {
-        content += '<option value="" selected>Seleccione una opción</option>';
+        content += '<option value="" selected>Select an option</option>';
         // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se obtiene el dato del primer campo de la sentencia SQL.
@@ -98,7 +98,7 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
             }
         });
     } else {
-        content += '<option>No hay opciones disponibles</option>';
+        content += '<option>no records available</option>';
     }
     // Se agregan las opciones a la etiqueta select mediante el id.
     document.getElementById(select).innerHTML = content;
