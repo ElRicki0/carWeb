@@ -1,5 +1,6 @@
 // ? apis path
 const CATEGORY_API = 'services/admin/category.php'
+const BRAND_API = 'services/admin/brand.php'
 // ? search form const
 const SEARCH_FORM = document.getElementById('searchForm');
 // ? table constants
@@ -23,6 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
     MAIN_TITLE.textContent = "Car brands";
 });
 
+SAVE_FORM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+
+    (ID_BRAND.value) ? action = 'updateRow' : action = 'createRow';
+    const FORM = new FormData(SAVE_FORM);
+    const DATA = await fetchData(BRAND_API, action, FORM);
+    if (DATA.status) {
+        SAVE_MODAL.hide();
+        sweetAlert(1, DATA.message);
+    } else {
+        sweetAlert(2, DATA.error);
+        console.log('ERROR #001');
+    }
+});
 
 const openCreate = () => {
     SAVE_MODAL.show();
