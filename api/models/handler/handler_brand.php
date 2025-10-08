@@ -53,4 +53,47 @@ class BrandHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+
+    public function readAll()
+    {
+        $sql = 'SELECT
+                    `id_brand`,
+                    `name_brand`,
+                    `description_brand`,
+                    `status_brand`,
+                    `picture_brand`,
+                    ct1.name_category as category1,
+                    ct2.name_category as category2,
+                    ct3.name_category as category3
+                FROM
+                    `tb_brands` bds
+                    INNER JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
+                    INNER JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
+                    INNER JOIN tb_categories ct3 on ct3.id_category = bds.id_category3';
+        return DATABASE::getRows($sql);
+    }
+
+    public function readOne()
+    {
+        $sql = 'SELECT
+                    `id_brand`,
+                    `name_brand`,
+                    `description_brand`,
+                    `status_brand`,
+                    `picture_brand`,
+                    ct1.name_category as category1,
+                    ct2.name_category as category2,
+                    ct3.name_category as category3,
+                    bds.id_category1,
+                    bds.id_category2,
+                    bds.id_category3
+                FROM
+                    `tb_brands` bds
+                    INNER JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
+                    INNER JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
+                    INNER JOIN tb_categories ct3 on ct3.id_category = bds.id_category3
+                WHERE id_brand = ?';
+        $params = array($this->id);
+        return DATABASE::getRow($sql, $params);
+    }
 }

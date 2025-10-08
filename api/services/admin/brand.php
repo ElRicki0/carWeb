@@ -35,6 +35,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'A problem occurred while creating a brand';
                 }
                 break;
+            case 'readAll':
+                if ($result['dataset'] = $brand->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = count($result['dataset']) . ' records found';
+                } else {
+                    $result['error'] = 'Currently there are no records';
+                }
+                break;
+            case 'readOne':
+                if (!$brand->setId($_POST['idBrand'])) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($result['dataset'] = $brand->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Error to read the category';
+                }
+                break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
