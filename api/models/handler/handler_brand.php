@@ -137,39 +137,6 @@ class BrandHandler
         return DATABASE::getRow($sql, $params);
     }
 
-    public function updateRow1()
-    {
-        $sql = 'UPDATE
-                    `tb_brands`
-                SET
-                    `name_brand` = ?,
-                    `description_brand` = ?,
-                    `status_brand` = ?,
-                    `picture_brand` = ?,
-                    `id_category1` = ?
-                WHERE
-                    `id_brand` = ?';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->id);
-        return Database::executeRow($sql, $params);
-    }
-
-    public function updateRow2()
-    {
-        $sql = 'UPDATE
-                    `tb_brands`
-                SET
-                    `name_brand` = ?,
-                    `description_brand` = ?,
-                    `status_brand` = ?,
-                    `picture_brand` = ?,
-                    `id_category1` = ?,
-                    `id_category2` = ?
-                WHERE
-                    `id_brand` = ?';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->id);
-        return Database::executeRow($sql, $params);
-    }
-
     public function updateRow3()
     {
         $sql = 'UPDATE
@@ -185,6 +152,12 @@ class BrandHandler
                 WHERE
                     `id_brand` = ?';
         $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->category3, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteRow(){
+        $sql = 'DELETE FROM `tb_brands` WHERE `id_brand` = ?';
+        $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
 }

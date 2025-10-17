@@ -325,3 +325,19 @@ const openUpdate = async (id) => {
         sweetAlert(2, DATA.error);
     }
 };
+
+const openDelete = async (id) => {
+    const RESPONSE = await confirmAction('Do you want to delete this record?');
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idBrand', id);
+        const DATA = await fetchData(BRAND_API, 'deleteRow', FORM);
+        if (DATA.status) {
+            sweetAlert(1, DATA.message);
+            fillTable(null, TABLE_TYPE);
+        } else {
+            sweetAlert(2, DATA.error);
+        }
+    }
+};

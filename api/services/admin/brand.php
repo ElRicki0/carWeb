@@ -146,6 +146,18 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'A problem occurred while updating a brand';
                 }
                 break;
+            case 'deleteRow':
+                if (!$brand->setId($_POST['idBrand'])) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand deleted successfully';
+                    $result['fileStatus'] = Validator::deleteFile($brand::PICTURE_PATH, $brand->getFilename());
+                } else {
+                    $result['error'] = 'A problem occurred while deleting the brand';
+                }
+
+                break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
