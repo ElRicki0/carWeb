@@ -15,11 +15,51 @@ class BrandHandler
     protected $status = null;
     protected $picture = null;
 
-    const PICTURE_PATH = '../../images/brand';
+    const PICTURE_PATH = '../../images/brand/';
 
     // todo SCRUD method (search, create, read, update, delete)
 
-    public function createRow()
+    public function createRow1()
+    {
+        $sql = 'INSERT INTO `tb_brands`(
+                    `name_brand`,
+                    `description_brand`,
+                    `status_brand`,
+                    `picture_brand`,
+                    `id_category1`
+                )
+                VALUES(
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?)';
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function createRow2()
+    {
+        $sql = 'INSERT INTO `tb_brands`(
+                    `name_brand`,
+                    `description_brand`,
+                    `status_brand`,
+                    `picture_brand`,
+                    `id_category1`,
+                    `id_category2`
+                )
+                VALUES(
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?)';
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function createRow3()
     {
         $sql = 'INSERT INTO `tb_brands`(
                     `name_brand`,
@@ -67,9 +107,9 @@ class BrandHandler
                     ct3.name_category as category3
                 FROM
                     `tb_brands` bds
-                    INNER JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
-                    INNER JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
-                    INNER JOIN tb_categories ct3 on ct3.id_category = bds.id_category3';
+                    LEFT JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
+                    LEFT JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
+                    LEFT JOIN tb_categories ct3 on ct3.id_category = bds.id_category3';
         return DATABASE::getRows($sql);
     }
 
@@ -89,11 +129,62 @@ class BrandHandler
                     bds.id_category3
                 FROM
                     `tb_brands` bds
-                    INNER JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
-                    INNER JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
-                    INNER JOIN tb_categories ct3 on ct3.id_category = bds.id_category3
+                    LEFT JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
+                    LEFT JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
+                    LEFT JOIN tb_categories ct3 on ct3.id_category = bds.id_category3
                 WHERE id_brand = ?';
         $params = array($this->id);
         return DATABASE::getRow($sql, $params);
+    }
+
+    public function updateRow1()
+    {
+        $sql = 'UPDATE
+                    `tb_brands`
+                SET
+                    `name_brand` = ?,
+                    `description_brand` = ?,
+                    `status_brand` = ?,
+                    `picture_brand` = ?,
+                    `id_category1` = ?
+                WHERE
+                    `id_brand` = ?';
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function updateRow2()
+    {
+        $sql = 'UPDATE
+                    `tb_brands`
+                SET
+                    `name_brand` = ?,
+                    `description_brand` = ?,
+                    `status_brand` = ?,
+                    `picture_brand` = ?,
+                    `id_category1` = ?,
+                    `id_category2` = ?
+                WHERE
+                    `id_brand` = ?';
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function updateRow3()
+    {
+        $sql = 'UPDATE
+                    `tb_brands`
+                SET
+                    `name_brand` = ?,
+                    `description_brand` = ?,
+                    `status_brand` = ?,
+                    `picture_brand` = ?,
+                    `id_category1` = ?,
+                    `id_category2` = ?,
+                    `id_category3` = ?
+                WHERE
+                    `id_brand` = ?';
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->category3, $this->id);
+        return Database::executeRow($sql, $params);
     }
 }

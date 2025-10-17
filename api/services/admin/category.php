@@ -62,6 +62,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
                 if (
                     !$category->setId($_POST['idCategory']) or
                     !$category->setName($_POST['nameCategory']) or

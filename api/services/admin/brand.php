@@ -12,10 +12,44 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrator'])) {
 
         switch ($_GET['action']) {
-
-            case 'createRow':
-                // echo($_POST['nameBrand']);
-                // die();
+            case 'createRow1':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$brand->setName($_POST['nameBrand']) or
+                    !$brand->setDescription($_POST['descriptionBrand']) or
+                    !$brand->setStatus($_POST['statusBrand']) or
+                    !$brand->setCategory1($_POST['categoryBrand1']) or
+                    !$brand->setPicture($_FILES['inputPictureBrand'])
+                ) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->createRow1()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand successfully created';
+                    $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
+                } else {
+                    $result['error'] = 'A problem occurred while creating a brand';
+                }
+                break;
+            case 'createRow2':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$brand->setName($_POST['nameBrand']) or
+                    !$brand->setDescription($_POST['descriptionBrand']) or
+                    !$brand->setStatus($_POST['statusBrand']) or
+                    !$brand->setCategory1($_POST['categoryBrand1']) or
+                    !$brand->setCategory2($_POST['categoryBrand2']) or
+                    !$brand->setPicture($_FILES['inputPictureBrand'])
+                ) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->createRow2()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand successfully created';
+                    $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
+                } else {
+                    $result['error'] = 'A problem occurred while creating a brand';
+                }
+                break;
+            case 'createRow3':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$brand->setName($_POST['nameBrand']) or
@@ -27,7 +61,7 @@ if (isset($_GET['action'])) {
                     !$brand->setPicture($_FILES['inputPictureBrand'])
                 ) {
                     $result['error'] = $brand->getDataError();
-                } elseif ($brand->createRow()) {
+                } elseif ($brand->createRow3()) {
                     $result['status'] = 1;
                     $result['message'] = 'Brand successfully created';
                     $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
@@ -50,6 +84,66 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Error to read the category';
+                }
+                break;
+            case 'updateRow1':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$brand->setId($_POST['idBrand']) or
+                    !$brand->setName($_POST['nameBrand']) or
+                    !$brand->setDescription($_POST['descriptionBrand']) or
+                    !$brand->setStatus($_POST['statusBrand']) or
+                    !$brand->setCategory1($_POST['categoryBrand1']) or
+                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
+                ) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->updateRow3()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand successfully update';
+                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
+                } else {
+                    $result['error'] = 'A problem occurred while updating a brand';
+                }
+                break;
+            case 'updateRow2':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$brand->setId($_POST['idBrand']) or
+                    !$brand->setName($_POST['nameBrand']) or
+                    !$brand->setDescription($_POST['descriptionBrand']) or
+                    !$brand->setStatus($_POST['statusBrand']) or
+                    !$brand->setCategory1($_POST['categoryBrand1']) or
+                    !$brand->setCategory2($_POST['categoryBrand2']) or
+                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
+                ) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->updateRow3()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand successfully update';
+                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
+                } else {
+                    $result['error'] = 'A problem occurred while updating a brand';
+                }
+                break;
+            case 'updateRow3':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$brand->setId($_POST['idBrand']) or
+                    !$brand->setName($_POST['nameBrand']) or
+                    !$brand->setDescription($_POST['descriptionBrand']) or
+                    !$brand->setStatus($_POST['statusBrand']) or
+                    !$brand->setCategory1($_POST['categoryBrand1']) or
+                    !$brand->setCategory2($_POST['categoryBrand2']) or
+                    !$brand->setCategory3($_POST['categoryBrand3']) or
+                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
+                ) {
+                    $result['error'] = $brand->getDataError();
+                } elseif ($brand->updateRow3()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand successfully update';
+                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
+                } else {
+                    $result['error'] = 'A problem occurred while updating a brand';
                 }
                 break;
             default:

@@ -62,7 +62,10 @@ class BrandData extends BrandHandler
 
     public function setCategory2($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateNaturalNumber($value) or null === $value) {
+            $this->category2 = $value;
+            return true;
+        } else if ($value == null) {
             $this->category2 = $value;
             return true;
         } else {
@@ -73,8 +76,11 @@ class BrandData extends BrandHandler
 
     public function setCategory3($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateNaturalNumber($value) or null === $value) {
             $this->category3 = $value;
+            return true;
+        } else if ($value == null) {
+            $this->category2 = $value;
             return true;
         } else {
             $this->data_error = 'The third brand ID is incorrect';
