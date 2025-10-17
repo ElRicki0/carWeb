@@ -19,6 +19,28 @@ class BrandHandler
 
     // todo SCRUD method (search, create, read, update, delete)
 
+    public function searchRows()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT
+                    `id_brand`,
+                    `name_brand`,
+                    `description_brand`,
+                    `status_brand`,
+                    `picture_brand`,
+                    `id_category1`,
+                    `id_category2`,
+                    `id_category3`
+                FROM
+                    `tb_brands`
+                WHERE
+                    `name_brand` LIKE ? OR
+                    `description_brand` LIKE ? OR
+                    `status_brand` LIKE ?';
+        $params = array($value, $value, $value);
+        return Database::getRows($sql, $params);
+    }
+
     public function createRow1()
     {
         $sql = 'INSERT INTO `tb_brands`(
@@ -155,7 +177,8 @@ class BrandHandler
         return Database::executeRow($sql, $params);
     }
 
-    public function deleteRow(){
+    public function deleteRow()
+    {
         $sql = 'DELETE FROM `tb_brands` WHERE `id_brand` = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);

@@ -12,6 +12,16 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrator'])) {
 
         switch ($_GET['action']) {
+            case 'searchRows':
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $brand->searchRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = count($result['dataset']) . ' records found';
+                } else {
+                    $result['error'] = 'Currently there are no records';
+                }
+                break;
             case 'createRow1':
                 $_POST = Validator::validateForm($_POST);
                 if (
