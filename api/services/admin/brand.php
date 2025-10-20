@@ -166,6 +166,17 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] = 'A problem occurred while deleting the brand';
                 }
+                break;
+            // ? other cases
+            case 'changeStatus':
+                if (!$brand->setId($_POST['idBrand'])) {
+                    $result['error'] = $brand->getDataError();
+                }elseif($brand->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Brand status successfully changed';
+                } else {
+                    $result['error'] = 'A problem occurred while changing the brand status';
+                }
 
                 break;
             default:

@@ -187,15 +187,9 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             const TABLE_BODY = document.getElementById("tableBody");
             DATA.dataset.forEach(row => {
                 if (row.status_brand == 1) {
-                    visualization = '<i class="bi bi-eye-fill"></i>'
+                    visualization = '<i class="bi bi-eye-fill"></i> Visible'
                 } else if (row.status_brand == 0) {
-                    visualization = '<i class="bi bi-eye-slash-fill"></i>'
-                }
-
-                if (row.status_brand == 1) {
-                    visualization = '<i class="bi bi-eye-fill"></i>'
-                } else if (row.status_brand == 0) {
-                    visualization = '<i class="bi bi-eye-slash-fill"></i>'
+                    visualization = '<i class="bi bi-eye-slash-fill"></i> No visible'
                 }
 
                 if (row.category2 == null) {
@@ -219,7 +213,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                 <td>${infoCategory3}</td>
                 <td><button type="button" class="btn btn-warning m-1" onClick="openUpdate(${row.id_brand})"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-danger m-1" onClick="openDelete(${row.id_brand})"><i class="bi bi-trash"></i></button>
-                    <button type="button" class="btn btn-info m-1" onClick="openUpdate(${row.id_brand})">${visualization}</button></td>
+                    <button type="button" class="btn btn-info m-1" onClick="openState(${row.id_brand})">${visualization}</button></td>
             </tr>
             `;
             });
@@ -232,9 +226,9 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             TABLE_BODY = document.getElementById("tableBody");
             DATA.dataset.forEach(row => {
                 if (row.status_brand == 1) {
-                    visualization = '<i class="bi bi-eye-fill"></i>'
+                    visualization = '<i class="bi bi-eye-fill"></i> Visible'
                 } else if (row.status_brand == 0) {
-                    visualization = '<i class="bi bi-eye-slash-fill"></i>'
+                    visualization = '<i class="bi bi-eye-slash-fill"></i> No visible'
                 }
 
                 if (row.category2 == null) {
@@ -272,7 +266,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                         <div class="mt-3">
                             <button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_brand})"><i class="bi bi-pencil-square"></i></button>
                             <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_brand})"><i class="bi bi-trash"></i></button>
-                            <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_brand})"> ${visualization}</button>
+                            <button type="button" class="btn btn-info" onClick="openState(${row.id_brand})"> ${visualization}</button>
                         </div>
                     </div>
                 </div>
@@ -328,11 +322,26 @@ const openUpdate = async (id) => {
 
 const openDelete = async (id) => {
     const RESPONSE = await confirmAction('Do you want to delete this record?');
-    if (RESPONSE) {
+    if (RESPONSE.isConfirmed) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
         FORM.append('idBrand', id);
         const DATA = await fetchData(BRAND_API, 'deleteRow', FORM);
+        if (DATA.status) {
+            sweetAlert(1, DATA.message);
+            fillTable(null, TABLE_TYPE);
+        } else {
+            sweetAlert(2, DATA.error);
+        }
+    }
+};
+
+const openState = async (id) => {
+    const RESPONSE = await confirmAction('Do you want to change the record visibility?');
+    if (RESPONSE.isConfirmed) {
+        const FORM = new FormData();
+        FORM.append('idBrand', id);
+        const DATA = await fetchData(BRAND_API, 'changeStatus', FORM);
         if (DATA.status) {
             sweetAlert(1, DATA.message);
             fillTable(null, TABLE_TYPE);

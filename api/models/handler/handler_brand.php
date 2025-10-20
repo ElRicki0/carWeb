@@ -183,4 +183,16 @@ class BrandHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function changeStatus()
+    {
+        $sql = 'UPDATE
+                `tb_brands`
+                SET
+                    `status_brand` = IF(`status_brand` = 1, 0, 1)
+                WHERE
+                    `id_brand` = ?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
 }
