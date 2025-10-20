@@ -121,6 +121,7 @@ class administratorData extends AdministratorHandler
     {
         if (Validator::validateBoolean($value)) {
             $this->status = $value;
+            return true;
         } else {
             $this->data_error = 'User status is invalid';
             return false;

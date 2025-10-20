@@ -62,6 +62,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
                 if (
                     !$category->setId($_POST['idCategory']) or
                     !$category->setName($_POST['nameCategory']) or
@@ -79,25 +80,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'A problem occurred while updating the category';
                 }
                 break;
-                case 'deleteRow':
-                    if (!$category->setId($_POST['idCategory'])) {
-                        $result['error'] = $category->getDataError();
-                    } elseif($category->deleteRow()){
-                        $result['status'] = 1;
-                        $result['message'] = 'Category deleted successfully';
-                        $result['fileStatus'] = Validator::deleteFile($category::PICTURE_PATH, $category->getFilename());
-                    } 
-                    else {
-                        $result['error'] = 'A problem occurred while deleting the category';
-                    }
-                    
-                    break;
+            case 'deleteRow':
+                if (!$category->setId($_POST['idCategory'])) {
+                    $result['error'] = $category->getDataError();
+                } elseif ($category->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Category deleted successfully';
+                    $result['fileStatus'] = Validator::deleteFile($category::PICTURE_PATH, $category->getFilename());
+                } else {
+                    $result['error'] = 'A problem occurred while deleting the category';
+                }
+
+                break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
         }
     } else {
-        print (json_encode('Acceso denegado'));
+        print (json_encode('Access denied'));
     }
 
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.

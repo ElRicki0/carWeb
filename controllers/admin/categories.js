@@ -221,7 +221,7 @@ const openDelete = async (id) => {
         FORM.append('idCategory', id);
         const DATA = await fetchData(CATEGORIES_API, 'deleteRow', FORM);
         if (DATA.status) {
-            await sweetAlert(1, DATA.message);
+            sweetAlert(1, DATA.message);
             fillTable(null, TABLE_TYPE);
         } else {
             sweetAlert(2, DATA.error);
