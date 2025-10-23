@@ -16,7 +16,7 @@ class BrandData extends BrandHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'The administrator ID is incorrect';
+            $this->data_error = 'The brand ID is incorrect';
             return false;
         }
     }

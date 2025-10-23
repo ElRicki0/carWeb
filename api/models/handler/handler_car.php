@@ -20,7 +20,7 @@ class CarHandler
 
     public function readAll()
     {
-        $sql='SELECT
+        $sql = 'SELECT
             `id_car`,
             `model_car`,
             `year_car`,
@@ -36,7 +36,19 @@ class CarHandler
             `tb_cars` cs
         LEFT JOIN tb_brands br ON
             cs.id_brand = br.id_brand';
-            return DATABASE::getRows($sql);
+        return DATABASE::getRows($sql);
+    }
+
+    public function readFileName()
+    {
+        $sql = 'SELECT
+                    `picture_car`
+                FROM
+                    `tb_cars`
+                WHERE
+                    `id_car`=?';
+                        $param = array($this->id);
+        return DATABASE::getRow($sql, $param);
     }
 
 }
