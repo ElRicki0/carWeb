@@ -56,6 +56,97 @@
         <div class="my-5" id="contentCars">
         </div>
 
+        <!-- Modal Body -->
+        <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+        <div class="modal fade" id="saveModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+            role="dialog" aria-hidden="true">
+            <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">
+                            Example title
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="saveForm">
+                        <input type="number" name="idCar" id="idCar" class="d-none">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12 mb-3 d-flex justify-content-center">
+                                    <label for="inputPictureCar" style="cursor: pointer;">
+                                        <img id="pictureBrand"
+                                            class="rounded mx-auto d-block img-fluid mt-3 border border-3 border-secondary-subtle rounded-circle imagen_R"
+                                            src="./../../resources/img/error/404Picture.png" alt="Picture error"
+                                            width="200px" height="200px">
+                                    </label>
+                                    <input id="inputPictureCar" type="file" name="inputPictureCar"
+                                        class="form-control d-none" accept=".png, .jpg">
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="modelCar" class="form-label">Car model</label>
+                                        <input type="text" class="form-control" name="modelCar" id="modelCar"
+                                            placeholder="Model text here..." required />
+                                    </div>
+
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="colorCar" class="form-label">Car color (Optional)</label>
+                                        <input type="text" class="form-control" name="colorCar" id="colorCar"
+                                            placeholder="Color name here (Optional)..." />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="yearCar" class="form-label">Car year</label>
+                                        <input type="number" class="form-control" name="yearCar" id="yearCar"
+                                            placeholder="Year car here" min="1950" max="2099" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Car visibility</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="statusCar" id="statusCar"
+                                                checked value="1" />
+                                            <label class="form-check-label" for="statusCar">
+                                                Active visibility
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="statusCar"
+                                                id="statusCar2" value="0" />
+                                            <label class="form-check-label" for="statusCar2"> Inactive visibility
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Brand Name</label>
+                                        <select name="brandCar" id="brandCar" class="form-select"
+                                            autocomplete="off" required>
+                                            <option value="null">Select a category...</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
         <!-- Llamada al framework y librería de mensajes -->
         <script src="../../resources/js/bootstrap/bootstrap.min.js"></script>

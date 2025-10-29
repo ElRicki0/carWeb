@@ -18,6 +18,27 @@ class CarHandler
 
     // todo SCRUD method (search, create, read, update, delete)
 
+    public function createRow()
+    {
+        $sql = 'INSERT INTO `tb_cars`(
+                    `model_car`,
+                    `year_car`,
+                    `color_car`,
+                    `status_car`,
+                    `id_brand`,
+                    `picture_car`
+                )
+                VALUES(
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?)';
+        $params = array($this->model, $this->year, $this->color, $this->status, $this->brand, $this->picture);
+        return DATABASE::executeRow($sql, $params);
+    }
+
     public function readAll()
     {
         $sql = 'SELECT
@@ -47,7 +68,7 @@ class CarHandler
                     `tb_cars`
                 WHERE
                     `id_car`=?';
-                        $param = array($this->id);
+        $param = array($this->id);
         return DATABASE::getRow($sql, $param);
     }
 

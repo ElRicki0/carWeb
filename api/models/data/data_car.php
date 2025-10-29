@@ -81,6 +81,24 @@ class CarData extends CarHandler
         }
     }
 
+    // ? se valida el archivo de imagen que pese menos de 2 megas y que sea formato .jpg o .png
+    public function setPicture($file, $filename = null)
+    {
+        if (Validator::validateImageFile($file)) {
+            $this->picture = Validator::getFileName();
+            return true;
+        } elseif (Validator::getFileError()) {
+            $this->data_error = Validator::getFileError();
+            return false;
+        } elseif ($filename) {
+            $this->picture = $filename;
+            return true;
+        } else {
+            $this->picture = '404Picture.png';
+            return true;
+        }
+    }
+
     public function setFilename()
     {
         if ($data = $this->readFilename()) {

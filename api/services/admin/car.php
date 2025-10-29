@@ -11,6 +11,28 @@ if (isset($_GET['action'])) {
 
     if (isset($_SESSION['idAdministrator'])) {
         switch ($_GET['action']) {
+            case 'createRow':
+                // echo($_POST['brandCar']);
+                // die();
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$car->setModel($_POST['modelCar']) or
+                    !$car->setColor($_POST['colorCar']) or
+                    !$car->setYear($_POST['yearCar']) or
+                    !$car->setStatus($_POST['statusCar']) or
+                    !$car->setBrand($_POST['brandCar']) or
+                    !$car->setPicture($_FILES['pictureCar']) 
+                ) {
+                    $result['error'] = $car->getDataError();
+                } elseif ($car->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Car successfully created';
+                    $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $car::PICTURE_PATH);
+                } else {
+                    $result['error'] = 'A problem occurred while creating the car';
+                }
+
+                break;
             case 'readAll':
                 if ($result['dataset'] = $car->readAll()) {
                     $result['status'] = 1;
