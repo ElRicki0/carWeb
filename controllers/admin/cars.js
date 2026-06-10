@@ -1,6 +1,7 @@
 // ? api path
 const CAR_API = 'services/admin/car.php';
 const BRAND_API = 'services/admin/brand.php';
+const MODEL_API = 'services/admin/model.php';
 // ? search form const
 const SEARCH_FORM = document.getElementById('searchForm');
 // ? table constants
@@ -14,12 +15,13 @@ const PICTURE_BRAND = document.getElementById('pictureBrand');
 // ? form components
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_CAR = document.getElementById('idCar'),
-    MODEL_CAR = document.getElementById('idCar'),
-    COLOR_CAR = document.getElementById('idCar'),
-    YEAR_CAR = document.getElementById('idCar'),
-    STATUS_CAR = document.getElementById('idCar'),
-    BRAND_CAR = document.getElementById('idCar'),
-    INPUT_PICTURE_CAR = document.getElementById('idCar');
+    MODEL_CAR = document.getElementById('modelCar'),
+    COLOR_CAR = document.getElementById('colorCar'),
+    YEAR_CAR = document.getElementById('yearCar'),
+    STATUS_CAR = document.getElementById('statusCar'),
+    STATUS_CAR2 = document.getElementById('statusCar2'),
+    BRAND_CAR = document.getElementById('brandCar'),
+    INPUT_PICTURE_CAR = document.getElementById('inputPictureCar');
 // ? type table const
 let TABLE_TYPE = 1;
 
@@ -79,3 +81,13 @@ const openCreate = async () => {
     MODAL_TITLE.textContent = 'Add new car';
     fillSelect(BRAND_API, 'readAll', 'brandCar');
 }
+
+BRAND_CAR.addEventListener('change', async () => {
+
+    const tipo = BRAND_CAR.value;
+
+    const defaultOption = document.createElement('option');
+    defaultOption.textContent = 'First select a brand';
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+});

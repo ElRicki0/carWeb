@@ -34,7 +34,6 @@ if (isset($_GET['action'])) {
                     !$category->setPicture($_FILES['inputPictureCategory'])
                 ) {
                     $result['error'] = $category->getDataError();
-
                 } elseif ($category->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Category successfully created';

@@ -54,6 +54,15 @@ if ($_GET['action']) {
                     $result['error'] = 'Currently there are no records';
                 }
                 break;
+            case 'readAllBrand':
+                if (!$model->setId($_POST['idBrand'])) {
+                    $result['error'] = $model->getDataError();
+                } elseif ($result['dataset'] = $model->readAllBrand()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Currently there are no records';
+                }
+                break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (

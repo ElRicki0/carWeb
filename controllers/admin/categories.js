@@ -127,7 +127,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                 <td>${row.description_category}</td>
                 <td>${row.usage_type_category}</td>
                 <td>${visualization}</td>
-                <td><img src="${SERVER_URL}images/category/${row.picture_category}" alt="Picture error" class="img-fluid" style="width: 200px"></td>
+                <td><img src="${SERVER_URL}images/category/${row.picture_category}" alt="Picture error" class="img-fluid" style="height: 200px"></td>
                 <td><button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_category})"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_category})"><i class="bi bi-trash"></i></button>
                     <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_category})">${visualization}</button></td>

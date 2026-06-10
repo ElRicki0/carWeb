@@ -69,6 +69,24 @@ class ModelHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readAllBrand()
+    {
+        $sql = 'SELECT
+                `id_model`,
+                `name_model`,
+                mds.id_brand,
+                brs.name_brand,
+                brs.picture_brand
+            FROM
+                `tb_models` mds
+            INNER JOIN tb_brands brs ON
+                mds.id_brand = brs.id_brand
+            WHERE
+                mds.id_brand = ?';
+        $params = array($this->brand);
+        return Database::getRows($sql, $params);
+    }
+
     public function updateRow()
     {
         $sql = 'UPDATE

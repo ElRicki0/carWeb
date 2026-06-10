@@ -40,13 +40,6 @@ CREATE TABLE `tb_administrator` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tb_administrator`
---
-
-INSERT INTO `tb_administrator` (`id_administrator`, `name_administrator`, `email_administrator`, `picture_administrator`, `phone_administrator`, `username_administrator`, `password_administrator`, `status_administrator`, `create_at`, `updated_at`) VALUES
-(1, 'ricardomelara', 'example@gmail.com', '404Administrator.png', '7899854521', 'example', '$2y$10$j1NYPrlbi4JfRLJ7toJ8neOolJ5dbc.mdjpSCNZeIqvucBAec1sHC', 0, '2025-10-07 19:42:41', '2025-10-07 19:42:41');
-
 -- --------------------------------------------------------
 
 --
@@ -64,12 +57,6 @@ CREATE TABLE `tb_brands` (
   `id_category3` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tb_brands`
---
-
-INSERT INTO `tb_brands` (`id_brand`, `name_brand`, `description_brand`, `status_brand`, `picture_brand`, `id_category1`, `id_category2`, `id_category3`) VALUES
-(30, 'new record', 'record hello', 0, '404Picture.png', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,11 +93,6 @@ CREATE TABLE `tb_categories` (
 --
 -- Volcado de datos para la tabla `tb_categories`
 --
-
-INSERT INTO `tb_categories` (`id_category`, `name_category`, `description_category`, `usage_type_category`, `status_category`, `picture_category`) VALUES
-(1, 'new example', 'description', 'heavy cars', 1, '404Category.png'),
-(2, 'category number two', 'example two', 'heavy', 1, '404Category.png'),
-(3, 'category number thee', 'category number trhee', 'livybg', 1, '404Category.png');
 
 --
 -- Índices para tablas volcadas

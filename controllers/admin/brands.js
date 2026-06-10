@@ -1,5 +1,4 @@
 // ? apis path
-const CATEGORIES_API = 'services/admin/category.php'
 const BRAND_API = 'services/admin/brand.php'
 // ? search form const
 const SEARCH_FORM = document.getElementById('searchForm');
@@ -19,9 +18,6 @@ const SAVE_FORM = document.getElementById('saveForm'),
     STATUS_BRAND1 = document.getElementById('statusBrand'),
     STATUS_BRAND2 = document.getElementById('statusBrand2'),
     DESCRIPTION_BRAND = document.getElementById('descriptionBrand'),
-    CATEGORY1_BRAND = document.getElementById('categoryBrand1'),
-    CATEGORY2_BRAND = document.getElementById('categoryBrand2'),
-    CATEGORY3_BRAND = document.getElementById('categoryBrand3'),
     INPUT_PICTURE_BRAND = document.getElementById('inputPictureBrand');
 // ? type table const
 let TABLE_TYPE = 1;
@@ -31,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     MAIN_TITLE.textContent = "Car brands";
     fillTable(null, TABLE_TYPE);
 });
+
+const setDefaultImg = () => {
+PICTURE_BRAND.src ='./../../resources/img/error/404Picture.png';
+};
 
 // ? función para mostrar la imagen del input en una etiqueta image
 INPUT_PICTURE_BRAND.addEventListener('change', function (event) {
@@ -51,49 +51,19 @@ INPUT_PICTURE_BRAND.addEventListener('change', function (event) {
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-
-    // Determinar si es creación o actualización mirando si el input id tiene valor
-    const hasId = ID_BRAND.value && ID_BRAND.value.toString().trim() !== '';
-    // Los selects usan "null" como opción por defecto en el HTML, así que consideramos seleccionados
-    // solo los valores distintos de '' y de 'null'.
-    const cat2Selected = CATEGORY2_BRAND.value && CATEGORY2_BRAND.value !== 'null' && CATEGORY2_BRAND.value !== '';
-    const cat3Selected = CATEGORY3_BRAND.value && CATEGORY3_BRAND.value !== 'null' && CATEGORY3_BRAND.value !== '';
-
-    if (!hasId) {
-        // CREACIÓN
-        if (!cat2Selected && !cat3Selected) {
-            action = 'createRow1';
-            console.log('case number 1 (createRow1)')
-        } else if (!cat3Selected) {
-            action = 'createRow2';
-            console.log('case number 2 (createRow2)')
-        } else {
-            action = 'createRow3';
-            console.log('case number 3 (createRow3)')
-        }
-    } else {
-        // ACTUALIZACIÓN
-        if (!cat2Selected && !cat3Selected) {
-            action = 'updateRow1';
-            console.log('case number 4 (UpdateRow1)')
-        } else if (!cat3Selected) {
-            action = 'updateRow2';
-            console.log('case number 5 (UpdateRow2)')
-        } else {
-            action = 'updateRow3';
-            console.log('case number 6 (UpdateRow3)')
-        }
-    }
-
+    (ID_BRAND.value) ? action = 'updateRow' : action = 'createRow';
     const FORM = new FormData(SAVE_FORM);
+
     const DATA = await fetchData(BRAND_API, action, FORM);
     if (DATA.status) {
+        console.log('ERROR #002');
         SAVE_MODAL.hide();
         sweetAlert(1, DATA.message);
         fillTable(null, TABLE_TYPE);
+
     } else {
         sweetAlert(2, DATA.error);
-        console.log('ERROR #001');
+        console.log('ERROR #0069');
     }
 });
 
@@ -107,40 +77,12 @@ SEARCH_FORM.addEventListener('submit', (event) => {
     fillTable(FORM, TABLE_TYPE);
 });
 
-// método para evento de cambio de estado para validar el segundo selector de categoría
-CATEGORY1_BRAND.addEventListener('change', () => {
-    const cat1Value = CATEGORY1_BRAND.value && CATEGORY1_BRAND.value !== 'null' && CATEGORY1_BRAND.value !== '';
-    if (cat1Value) {
-        CATEGORY2_BRAND.disabled = false;
-    } else {
-        CATEGORY2_BRAND.disabled = true;
-        CATEGORY2_BRAND.value = '';
-        CATEGORY3_BRAND.disabled = true;
-        CATEGORY3_BRAND.value = '';
-
-    }
-});
-
-CATEGORY2_BRAND.addEventListener('change', () => {
-    const cat2Value = CATEGORY2_BRAND.value && CATEGORY2_BRAND.value !== 'null' && CATEGORY2_BRAND.value !== '';
-    if (cat2Value) {
-        CATEGORY3_BRAND.disabled = false;
-    } else {
-        CATEGORY3_BRAND.disabled = true;
-        CATEGORY3_BRAND.value = '';
-    }
-
-});
 
 const openCreate = () => {
+    setDefaultImg();
     SAVE_MODAL.show();
     SAVE_FORM.reset();
     MODAL_TITLE.textContent = 'Add new brand';
-    fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand1');
-    fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand2');
-    fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand3');
-    CATEGORY2_BRAND.disabled = true;
-    CATEGORY3_BRAND.disabled = true;
 };
 
 const changeTableType = (value) => {
@@ -173,9 +115,6 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                             <th>Brand name</th>
                             <th>Brand Description</th>
                             <th>status</th>
-                            <th>Brand category 1</th>
-                            <th>Brand category 2</th>
-                            <th>Brand category 3</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -192,25 +131,12 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                     visualization = '<i class="bi bi-eye-slash-fill"></i> No visible'
                 }
 
-                if (row.category2 == null) {
-                    infoCategory2 = 'Category not selected'
-                } else {
-                    infoCategory2 = row.category2
-                }
-                if (row.category3 == null) {
-                    infoCategory3 = 'Category not selected'
-                } else {
-                    infoCategory3 = row.category3
-                }
                 TABLE_BODY.innerHTML += `
             <tr class="table-light">
-                <td><img src="${SERVER_URL}images/brand/${row.picture_brand}" alt="Picture error" class="img-fluid" style="width: 200px"></td>
+                <td><img src="${SERVER_URL}images/brand/${row.picture_brand}" alt="Picture error" class="img-fluid" style="height: 200px"></td>
                 <td>${row.name_brand}</td>
                 <td>${row.description_brand}</td>
                 <td>${visualization}</td>
-                <td>${row.category1}</td>
-                <td>${infoCategory2}</td>
-                <td>${infoCategory3}</td>
                 <td><button type="button" class="btn btn-warning m-1" onClick="openUpdate(${row.id_brand})"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-danger m-1" onClick="openDelete(${row.id_brand})"><i class="bi bi-trash"></i></button>
                     <button type="button" class="btn btn-info m-1" onClick="openState(${row.id_brand})">${visualization}</button></td>
@@ -231,39 +157,23 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                     visualization = '<i class="bi bi-eye-slash-fill"></i> No visible'
                 }
 
-                if (row.category2 == null) {
-                    infoCategory2 = 'Category not selected'
-                } else {
-                    infoCategory2 = row.category2
-                }
-                if (row.category3 == null) {
-                    infoCategory3 = 'Category not selected'
-                } else {
-                    infoCategory3 = row.category3
-                }
-
                 TABLE_BODY.innerHTML += `
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                 <div class="card w-100 d-flex flex-column">
                     <div class="d-flex justify-content-center align-items-center p-3">
-                        <img src="${SERVER_URL}images/brand/${row.picture_brand}" class="img-fluid rounded border border-primary" alt="Picture Error" style="max-height:200px; width: auto;">
+                        <img src="${SERVER_URL}images/brand/${row.picture_brand}" class="img-fluid rounded border border-primary" alt="Picture Error" style="max-height:200px;">
                     </div>
                     <div class="card-body text-center d-flex flex-column justify-content-between">
                         <div>
                             <h5 class="card-title">${row.name_brand}</h5>
                             <p class="card-text">${row.description_brand}</p>
                         </div>
-                        <div>
-                            <h4 class="card-text">Categories:</h4>
-                            <p class="">${row.category1}</p>
-                            <p class="">${infoCategory2}</p>
-                            <p class="">${infoCategory3}</p>
                         </div>
                         <div>
-                            <p class="card-text"><small class="text-muted">Estado: ${visualization}</small></p>
+                            <p class="card-text text-center"><small class="text-muted">Estado: ${visualization}</small></p>
                         </div>
 
-                        <div class="mt-3">
+                        <div class="mt-3 d-flex justify-content-center gap-2 mb-2">
                             <button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_brand})"><i class="bi bi-pencil-square"></i></button>
                             <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_brand})"><i class="bi bi-trash"></i></button>
                             <button type="button" class="btn btn-info" onClick="openState(${row.id_brand})"> ${visualization}</button>
@@ -282,6 +192,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
 };
 
 const openUpdate = async (id) => {
+    setDefaultImg();
     const FORM = new FormData();
     FORM.append('idBrand', id);
     const DATA = await fetchData(BRAND_API, 'readOne', FORM);
@@ -293,21 +204,10 @@ const openUpdate = async (id) => {
         ID_BRAND.value = ROW.id_brand;
         NAME_BRAND.value = ROW.name_brand;
         DESCRIPTION_BRAND.value = ROW.description_brand;
-        fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand1', parseInt(ROW.id_category1));
-        fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand2', parseInt(ROW.id_category2));
-        fillSelect(CATEGORIES_API, 'readAll', 'categoryBrand3', parseInt(ROW.id_category3));
-        if (ROW.id_category2 !== null) {
-            CATEGORY2_BRAND.disabled = false
-        } else {
-            CATEGORY2_BRAND.disabled = true
-        }
-
-        if (ROW.id_category3 !== null) {
-            CATEGORY3_BRAND.disabled = false
-        } else {
-            CATEGORY3_BRAND.disabled = true
-        }
-
+        PICTURE_BRAND.src = './../../api/images/brand/'+ROW.picture_brand;
+        PICTURE_BRAND.onerror = () => {
+        PICTURE_BRAND.src = './../../resources/img/error/404Picture.png';
+    };
         if (ROW.status_brand == 1) {
             STATUS_BRAND1.checked = true;
             STATUS_BRAND2.checked = false;
@@ -321,6 +221,7 @@ const openUpdate = async (id) => {
 };
 
 const openDelete = async (id) => {
+    setDefaultImg();
     const RESPONSE = await confirmAction('Do you want to delete this record?');
     if (RESPONSE.isConfirmed) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

@@ -22,61 +22,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Currently there are no records';
                 }
                 break;
-            case 'createRow1':
+            case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$brand->setName($_POST['nameBrand']) or
                     !$brand->setDescription($_POST['descriptionBrand']) or
                     !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'])
+                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
                 ) {
                     $result['error'] = $brand->getDataError();
-                } elseif ($brand->createRow1()) {
+                } elseif ($brand->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Brand successfully created';
                     $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
                 } else {
-                    $result['error'] = 'A problem occurred while creating a brand';
-                }
-                break;
-            case 'createRow2':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$brand->setName($_POST['nameBrand']) or
-                    !$brand->setDescription($_POST['descriptionBrand']) or
-                    !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
-                    !$brand->setCategory2($_POST['categoryBrand2']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'])
-                ) {
-                    $result['error'] = $brand->getDataError();
-                } elseif ($brand->createRow2()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Brand successfully created';
-                    $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
-                } else {
-                    $result['error'] = 'A problem occurred while creating a brand';
-                }
-                break;
-            case 'createRow3':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$brand->setName($_POST['nameBrand']) or
-                    !$brand->setDescription($_POST['descriptionBrand']) or
-                    !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
-                    !$brand->setCategory2($_POST['categoryBrand2']) or
-                    !$brand->setCategory3($_POST['categoryBrand3']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'])
-                ) {
-                    $result['error'] = $brand->getDataError();
-                } elseif ($brand->createRow3()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Brand successfully created';
-                    $result['fileStatus'] = Validator::saveFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH);
-                } else {
-                    $result['error'] = 'A problem occurred while creating a brand';
+                    $result['error'] = 'A problem occurred while registering the brand';
                 }
                 break;
             case 'readAll':
@@ -96,59 +56,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error to read the category';
                 }
                 break;
-            case 'updateRow1':
+            case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$brand->setId($_POST['idBrand']) or
                     !$brand->setName($_POST['nameBrand']) or
                     !$brand->setDescription($_POST['descriptionBrand']) or
                     !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
                     !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
                 ) {
                     $result['error'] = $brand->getDataError();
-                } elseif ($brand->updateRow3()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Brand successfully update';
-                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
-                } else {
-                    $result['error'] = 'A problem occurred while updating a brand';
-                }
-                break;
-            case 'updateRow2':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$brand->setId($_POST['idBrand']) or
-                    !$brand->setName($_POST['nameBrand']) or
-                    !$brand->setDescription($_POST['descriptionBrand']) or
-                    !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
-                    !$brand->setCategory2($_POST['categoryBrand2']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
-                ) {
-                    $result['error'] = $brand->getDataError();
-                } elseif ($brand->updateRow3()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Brand successfully update';
-                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
-                } else {
-                    $result['error'] = 'A problem occurred while updating a brand';
-                }
-                break;
-            case 'updateRow3':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$brand->setId($_POST['idBrand']) or
-                    !$brand->setName($_POST['nameBrand']) or
-                    !$brand->setDescription($_POST['descriptionBrand']) or
-                    !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setCategory1($_POST['categoryBrand1']) or
-                    !$brand->setCategory2($_POST['categoryBrand2']) or
-                    !$brand->setCategory3($_POST['categoryBrand3']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
-                ) {
-                    $result['error'] = $brand->getDataError();
-                } elseif ($brand->updateRow3()) {
+                } elseif ($brand->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Brand successfully update';
                     $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
@@ -171,28 +89,26 @@ if (isset($_GET['action'])) {
             case 'changeStatus':
                 if (!$brand->setId($_POST['idBrand'])) {
                     $result['error'] = $brand->getDataError();
-                }elseif($brand->changeStatus()) {
+                } elseif ($brand->changeStatus()) {
                     $result['status'] = 1;
                     $result['message'] = 'Brand status successfully changed';
                 } else {
                     $result['error'] = 'A problem occurred while changing the brand status';
                 }
-
                 break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
         }
     } else {
-        print (json_encode('Access denied'));
+        print(json_encode('Access denied'));
     }
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
     $result['exception'] = Database::getException();
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
-
+    print(json_encode('Recurso no disponible'));
 }

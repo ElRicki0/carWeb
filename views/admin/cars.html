@@ -84,9 +84,27 @@
                                 </div>
                                 <div class="col-12 col-lg-6">
                                     <div class="mb-3">
-                                        <label for="modelCar" class="form-label">Car model</label>
-                                        <input type="text" class="form-control" name="modelCar" id="modelCar"
-                                            placeholder="Model text here..." required />
+                                        <label for="" class="form-label">Brand Name</label>
+                                        <select name="brandCar" id="brandCar" class="form-select" autocomplete="off"
+                                            required>
+                                            <option value="null">Select a category...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="modelCar" class="form-label">Model Name</label>
+                                        <select class="form-select " name="modelCar" id="modelCar">
+                                            <option selected>First select a brand</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="nameCar" class="form-label">Car name</label>
+                                        <input type="text" class="form-control" name="nameCar" id="nameCar"
+                                            placeholder="name text here..." required />
                                     </div>
 
                                 </div>
@@ -121,16 +139,6 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Brand Name</label>
-                                        <select name="brandCar" id="brandCar" class="form-select"
-                                            autocomplete="off" required>
-                                            <option value="null">Select a category...</option>
-                                        </select>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

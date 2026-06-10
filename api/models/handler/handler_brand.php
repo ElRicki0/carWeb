@@ -9,9 +9,6 @@ class BrandHandler
     protected $id = null;
     protected $name = null;
     protected $description = null;
-    protected $category1 = null;
-    protected $category2 = null;
-    protected $category3 = null;
     protected $status = null;
     protected $picture = null;
 
@@ -27,10 +24,7 @@ class BrandHandler
                     `name_brand`,
                     `description_brand`,
                     `status_brand`,
-                    `picture_brand`,
-                    `id_category1`,
-                    `id_category2`,
-                    `id_category3`
+                    `picture_brand`
                 FROM
                     `tb_brands`
                 WHERE
@@ -41,66 +35,20 @@ class BrandHandler
         return Database::getRows($sql, $params);
     }
 
-    public function createRow1()
+    public function createRow()
     {
         $sql = 'INSERT INTO `tb_brands`(
                     `name_brand`,
                     `description_brand`,
                     `status_brand`,
-                    `picture_brand`,
-                    `id_category1`
+                    `picture_brand`
                 )
                 VALUES(
                     ?,
                     ?,
                     ?,
-                    ?,
                     ?)';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1);
-        return Database::executeRow($sql, $params);
-    }
-
-    public function createRow2()
-    {
-        $sql = 'INSERT INTO `tb_brands`(
-                    `name_brand`,
-                    `description_brand`,
-                    `status_brand`,
-                    `picture_brand`,
-                    `id_category1`,
-                    `id_category2`
-                )
-                VALUES(
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?)';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2);
-        return Database::executeRow($sql, $params);
-    }
-
-    public function createRow3()
-    {
-        $sql = 'INSERT INTO `tb_brands`(
-                    `name_brand`,
-                    `description_brand`,
-                    `status_brand`,
-                    `picture_brand`,
-                    `id_category1`,
-                    `id_category2`,
-                    `id_category3`
-                )
-                VALUES(
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?)';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->category3);
+        $params = array($this->name, $this->description, $this->status, $this->picture);
         return Database::executeRow($sql, $params);
     }
 
@@ -123,15 +71,9 @@ class BrandHandler
                     `name_brand`,
                     `description_brand`,
                     `status_brand`,
-                    `picture_brand`,
-                    ct1.name_category as category1,
-                    ct2.name_category as category2,
-                    ct3.name_category as category3
+                    `picture_brand`
                 FROM
-                    `tb_brands` bds
-                    LEFT JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
-                    LEFT JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
-                    LEFT JOIN tb_categories ct3 on ct3.id_category = bds.id_category3';
+                    `tb_brands` bds';
         return DATABASE::getRows($sql);
     }
 
@@ -142,24 +84,15 @@ class BrandHandler
                     `name_brand`,
                     `description_brand`,
                     `status_brand`,
-                    `picture_brand`,
-                    ct1.name_category as category1,
-                    ct2.name_category as category2,
-                    ct3.name_category as category3,
-                    bds.id_category1,
-                    bds.id_category2,
-                    bds.id_category3
+                    `picture_brand`
                 FROM
-                    `tb_brands` bds
-                    LEFT JOIN tb_categories ct1 on ct1.id_category = bds.id_category1
-                    LEFT JOIN tb_categories ct2 on ct2.id_category = bds.id_category2    
-                    LEFT JOIN tb_categories ct3 on ct3.id_category = bds.id_category3
+                    `tb_brands`
                 WHERE id_brand = ?';
         $params = array($this->id);
         return DATABASE::getRow($sql, $params);
     }
 
-    public function updateRow3()
+    public function updateRow()
     {
         $sql = 'UPDATE
                     `tb_brands`
@@ -167,13 +100,10 @@ class BrandHandler
                     `name_brand` = ?,
                     `description_brand` = ?,
                     `status_brand` = ?,
-                    `picture_brand` = ?,
-                    `id_category1` = ?,
-                    `id_category2` = ?,
-                    `id_category3` = ?
+                    `picture_brand` = ?
                 WHERE
                     `id_brand` = ?';
-        $params = array($this->name, $this->description, $this->status, $this->picture, $this->category1, $this->category2, $this->category3, $this->id);
+        $params = array($this->name, $this->description, $this->status, $this->picture, $this->id);
         return Database::executeRow($sql, $params);
     }
 
