@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const setDefaultImg = () => {
-PICTURE_BRAND.src ='./../../resources/img/error/404Picture.png';
+    PICTURE_BRAND.src = './../../resources/img/error/404Picture.png';
 };
 
 // ? función para mostrar la imagen del input en una etiqueta image
@@ -204,10 +204,10 @@ const openUpdate = async (id) => {
         ID_BRAND.value = ROW.id_brand;
         NAME_BRAND.value = ROW.name_brand;
         DESCRIPTION_BRAND.value = ROW.description_brand;
-        PICTURE_BRAND.src = './../../api/images/brand/'+ROW.picture_brand;
+        PICTURE_BRAND.src = SERVER_URL+'images/brand/' + ROW.picture_brand;
         PICTURE_BRAND.onerror = () => {
-        PICTURE_BRAND.src = './../../resources/img/error/404Picture.png';
-    };
+            PICTURE_BRAND.src = './../../resources/img/error/404Picture.png';
+        };
         if (ROW.status_brand == 1) {
             STATUS_BRAND1.checked = true;
             STATUS_BRAND2.checked = false;

@@ -49,45 +49,6 @@ class BrandData extends BrandHandler
         }
     }
 
-    public function setCategory1($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->category1 = $value;
-            return true;
-        } else {
-            $this->data_error = 'The brand ID is incorrect';
-            return false;
-        }
-    }
-
-    public function setCategory2($value)
-    {
-        if (Validator::validateNaturalNumber($value) or null === $value) {
-            $this->category2 = $value;
-            return true;
-        } else if ($value == null) {
-            $this->category2 = $value;
-            return true;
-        } else {
-            $this->data_error = 'The second brand ID is incorrect';
-            return false;
-        }
-    }
-
-    public function setCategory3($value)
-    {
-        if (Validator::validateNaturalNumber($value) or null === $value) {
-            $this->category3 = $value;
-            return true;
-        } else if ($value == null) {
-            $this->category2 = $value;
-            return true;
-        } else {
-            $this->data_error = 'The third brand ID is incorrect';
-            return false;
-        }
-    }
-
     // se valida el estado de el administrador
 
     public function setStatus($value)
@@ -110,6 +71,9 @@ class BrandData extends BrandHandler
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
             return false;
+        } elseif (is_array($filename) && isset($filename['picture_brand'])) {
+            $this->picture = $filename['picture_brand'];
+            return true;
         } elseif ($filename) {
             $this->picture = $filename;
             return true;

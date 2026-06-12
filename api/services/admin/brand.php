@@ -58,20 +58,30 @@ if (isset($_GET['action'])) {
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
-                    !$brand->setId($_POST['idBrand']) or
-                    !$brand->setName($_POST['nameBrand']) or
-                    !$brand->setDescription($_POST['descriptionBrand']) or
-                    !$brand->setStatus($_POST['statusBrand']) or
-                    !$brand->setPicture($_FILES['inputPictureBrand'], $brand->readFileName())
-                ) {
+                if (!$brand->setId($_POST['idBrand'])) {
                     $result['error'] = $brand->getDataError();
-                } elseif ($brand->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Brand successfully update';
-                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $brand->readFileName());
                 } else {
-                    $result['error'] = 'A problem occurred while updating a brand';
+                    // Obtener el nombre actual de la imagen
+                    $oldFileData = $brand->readFileName();
+                    $oldFileName = $oldFileData['picture_brand'] ?? null;
+                    $hasNewImage = !empty($_FILES['inputPictureBrand']['tmp_name']);
+
+                    if (
+                        !$brand->setName($_POST['nameBrand']) or
+                        !$brand->setDescription($_POST['descriptionBrand']) or
+                        !$brand->setStatus($_POST['statusBrand']) or
+                        !$brand->setPicture($_FILES['inputPictureBrand'], $oldFileName)
+                    ) {
+                        $result['error'] = $brand->getDataError();
+                    } elseif ($brand->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Brand successfully update';
+                        if ($hasNewImage) {
+                            $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureBrand'], $brand::PICTURE_PATH, $oldFileName);
+                        }
+                    } else {
+                        $result['error'] = 'A problem occurred while updating a brand';
+                    }
                 }
                 break;
             case 'deleteRow':

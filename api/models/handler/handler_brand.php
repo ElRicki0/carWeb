@@ -59,7 +59,7 @@ class BrandHandler
                 FROM
                     `tb_brands`
                 WHERE
-                    `id_description`= ?';
+                    `id_brand` = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
