@@ -52,7 +52,7 @@ class CategoriesData extends CategoriesHandler
         }
     }
 
-    public function setType($value, $min =4, $max =50)
+    public function setType($value, $min = 4, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'The type category must be an alphabetical value';
@@ -86,6 +86,9 @@ class CategoriesData extends CategoriesHandler
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
             return false;
+        } elseif (is_array($filename) && isset($filename['picture_category'])) {
+            $this->picture = $filename['picture_category'];
+            return true;
         } elseif ($filename) {
             $this->picture = $filename;
             return true;

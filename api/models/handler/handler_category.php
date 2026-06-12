@@ -125,4 +125,16 @@ class CategoriesHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+
+    // ? Other cases
+    public function changeStatus(){
+        $sql = 'UPDATE
+                `tb_categories`
+                SET
+                    `status_category` = IF(`status_category` = 1, 0, 1)
+                WHERE
+                    `id_category` = ?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
 }

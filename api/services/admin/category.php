@@ -62,21 +62,30 @@ if (isset($_GET['action'])) {
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
-                if (
-                    !$category->setId($_POST['idCategory']) or
-                    !$category->setName($_POST['nameCategory']) or
-                    !$category->setDescription($_POST['descriptionCategory']) or
-                    !$category->setType($_POST['typeCategory']) or
-                    !$category->setStatus($_POST['statusCategory']) or
-                    !$category->setPicture($_FILES['inputPictureCategory'])
-                ) {
+                if (!$category->setId($_POST['idCategory'])) {
                     $result['error'] = $category->getDataError();
-                } else if ($category->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Category successfully updated';
-                    $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureCategory'], $category::PICTURE_PATH, $category->getFilename());
                 } else {
-                    $result['error'] = 'A problem occurred while updating the category';
+                    // Obtener el nombre actual de la imagen
+                    $oldFileData = $category->readFileName();
+                    $oldFileName = $oldFileData['picture_category'] ?? null;
+                    $hasNewImage = !empty($_FILES['inputPictureCategory']['tmp_name']);
+                    if (
+                        !$category->setName($_POST['nameCategory']) or
+                        !$category->setDescription($_POST['descriptionCategory']) or
+                        !$category->setType($_POST['typeCategory']) or
+                        !$category->setStatus($_POST['statusCategory']) or
+                        !$category->setPicture($_FILES['inputPictureCategory'], $oldFileName)
+                    ) {
+                        $result['error'] = $category->getDataError();
+                    } else if ($category->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Category successfully updated';
+                        if ($hasNewImage) {
+                            $result['fileStatus'] = Validator::changeFile($_FILES['inputPictureCategory'], $category::PICTURE_PATH, $oldFileName);
+                        }
+                    } else {
+                        $result['error'] = 'A problem occurred while updating the category';
+                    }
                 }
                 break;
             case 'deleteRow':
@@ -91,12 +100,24 @@ if (isset($_GET['action'])) {
                 }
 
                 break;
+
+            // ? other cases
+            case 'changeStatus':
+                if (!$category->setId($_POST['idCategory'])) {
+                    $result['error'] = $category->getDataError();
+                } elseif ($category->changeStatus()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Category status successfully changed';
+                } else {
+                    $result['error'] = 'A problem occurred while changing the category status';
+                }
+                break;
             default:
                 $result['error'] = 'Action not available inside the session';
                 break;
         }
     } else {
-        print (json_encode('Access denied'));
+        print(json_encode('Access denied'));
     }
 
     // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
@@ -104,7 +125,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

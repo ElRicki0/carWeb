@@ -45,6 +45,10 @@ INPUT_PICTURE_CATEGORY.addEventListener('change', function (event) {
     }
 });
 
+const setDefaultPicture = () => {
+    PICTURE_CATEGORY.src = './../../resources/img/error/404Picture.png';
+};
+
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -130,7 +134,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                 <td><img src="${SERVER_URL}images/category/${row.picture_category}" alt="Picture error" class="img-fluid" style="height: 200px"></td>
                 <td><button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_category})"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_category})"><i class="bi bi-trash"></i></button>
-                    <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_category})">${visualization}</button></td>
+                    <button type="button" class="btn btn-info" onClick="openState(${row.id_category})">${visualization}</button></td>
             </tr>
             `;
             });
@@ -164,7 +168,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                         <div class="mt-3">
                             <button type="button" class="btn btn-warning" onClick="openUpdate(${row.id_category})"><i class="bi bi-pencil-square"></i></button>
                             <button type="button" class="btn btn-danger" onClick="openDelete(${row.id_category})"><i class="bi bi-trash"></i></button>
-                            <button type="button" class="btn btn-info" onClick="openUpdate(${row.id_category})"> ${visualization}</button>
+                            <button type="button" class="btn btn-info" onClick="openState(${row.id_category})"> ${visualization}</button>
                         </div>
                     </div>
                 </div>
@@ -180,6 +184,8 @@ const fillTable = async (form = null, TABLE_TYPE) => {
 };
 
 const openCreate = () => {
+    // set the default picture when the user open a new item 
+    setDefaultPicture();
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
     MODAL_TITLE.textContent = "Crear categoría";
@@ -188,6 +194,8 @@ const openCreate = () => {
 };
 
 const openUpdate = async (id) => {
+    // set the default picture when the user open a new item 
+    setDefaultPicture();
     const FORM = new FormData();
     FORM.append('idCategory', id);
 
@@ -201,6 +209,7 @@ const openUpdate = async (id) => {
         NAME_CATEGORY.value = ROW.name_category;
         DESCRIPTION_CATEGORY.value = ROW.description_category;
         TYPE_CATEGORY.value = ROW.usage_type_category;
+        PICTURE_CATEGORY.src = SERVER_URL + 'images/category/'+ ROW.picture_category;
         if (ROW.status_category == 1) {
             STATUS_CATEGORY.checked = true;
             STATUS_CATEGORY2.checked = false;
@@ -213,9 +222,24 @@ const openUpdate = async (id) => {
     }
 };
 
+const openState = async (id) => {
+    const RESPONSE = await confirmAction('Do you want to change the record visibility?');
+    if (RESPONSE.isConfirmed) {
+        const FORM = new FormData();
+        FORM.append('idCategory', id);
+        const DATA = await fetchData(CATEGORIES_API, 'changeStatus', FORM);
+        if (DATA.status) {
+            sweetAlert(1, DATA.message);
+            fillTable(null, TABLE_TYPE);
+        } else {
+            sweetAlert(2, DATA.error);
+        }
+    }
+};
+
 const openDelete = async (id) => {
     const RESPONSE = await confirmAction('Do you want to delete this record?');
-    if (RESPONSE) {
+    if (RESPONSE.isConfirmed) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
         FORM.append('idCategory', id);
