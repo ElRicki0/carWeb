@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2025 a las 06:53:51
+-- Tiempo de generación: 13-06-2026 a las 03:34:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,6 +40,13 @@ CREATE TABLE `tb_administrator` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tb_administrator`
+--
+
+INSERT INTO `tb_administrator` (`id_administrator`, `name_administrator`, `email_administrator`, `picture_administrator`, `phone_administrator`, `username_administrator`, `password_administrator`, `status_administrator`, `create_at`, `updated_at`) VALUES
+(2, 'ricardo', 'example@gmail.com', '404Administrator.png', '(555) 223-4567', 'example', '$2y$10$H0tWWdy/GNJoomph.PLwO.lN7ePlrbRSJacMC6yGba0zstQR/WWAG', 0, '2026-06-10 19:31:04', '2026-06-10 19:31:04');
+
 -- --------------------------------------------------------
 
 --
@@ -51,12 +58,17 @@ CREATE TABLE `tb_brands` (
   `name_brand` varchar(30) NOT NULL,
   `description_brand` varchar(150) NOT NULL,
   `status_brand` tinyint(4) DEFAULT 1,
-  `picture_brand` varchar(300) DEFAULT '404Picture.png',
-  `id_category1` int(11) NOT NULL,
-  `id_category2` int(11) DEFAULT NULL,
-  `id_category3` int(11) DEFAULT NULL
+  `picture_brand` varchar(300) DEFAULT '404Picture.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tb_brands`
+--
+
+INSERT INTO `tb_brands` (`id_brand`, `name_brand`, `description_brand`, `status_brand`, `picture_brand`) VALUES
+(32, 'mazda brand name updated one', 'mazda description brand', 0, '6a2c1a507021c.png'),
+(33, 'toyota brand name updated', 'toyota brand description', 0, '6a2c8afde2fad.png'),
+(34, 'ponmi brand name', 'ponmi brand description', 1, '6a2c8b2d21963.png');
 
 -- --------------------------------------------------------
 
@@ -94,6 +106,25 @@ CREATE TABLE `tb_categories` (
 -- Volcado de datos para la tabla `tb_categories`
 --
 
+INSERT INTO `tb_categories` (`id_category`, `name_category`, `description_category`, `usage_type_category`, `status_category`, `picture_category`) VALUES
+(9, 'pickup brands', 'description brandm state', 'family and daily', 0, '6a2ca5f8943ea.jpg'),
+(10, 'exotic cars status', 'description exotic car', 'racing cars statuand exibitions', 1, '6a2ca69b2027d.jpg'),
+(11, 'sedan', 'family car aun  daily use car', 'family and daily', 1, '6a2ca6e10cb62.jpg'),
+(12, 'suv', 'a daily car and family car', 'daily car', 1, '6a2ca77d341be.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tb_models`
+--
+
+CREATE TABLE `tb_models` (
+  `id_model` int(11) NOT NULL,
+  `name_model` varchar(15) NOT NULL,
+  `description_model` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -112,10 +143,7 @@ ALTER TABLE `tb_administrator`
 --
 ALTER TABLE `tb_brands`
   ADD PRIMARY KEY (`id_brand`),
-  ADD UNIQUE KEY `name_brand` (`name_brand`),
-  ADD KEY `id_category1` (`id_category1`),
-  ADD KEY `id_category2` (`id_category2`),
-  ADD KEY `id_category3` (`id_category3`);
+  ADD UNIQUE KEY `name_brand` (`name_brand`);
 
 --
 -- Indices de la tabla `tb_cars`
@@ -132,6 +160,13 @@ ALTER TABLE `tb_categories`
   ADD UNIQUE KEY `name_category` (`name_category`);
 
 --
+-- Indices de la tabla `tb_models`
+--
+ALTER TABLE `tb_models`
+  ADD PRIMARY KEY (`id_model`),
+  ADD UNIQUE KEY `name_model` (`name_model`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -139,13 +174,13 @@ ALTER TABLE `tb_categories`
 -- AUTO_INCREMENT de la tabla `tb_administrator`
 --
 ALTER TABLE `tb_administrator`
-  MODIFY `id_administrator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_administrator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tb_brands`
 --
 ALTER TABLE `tb_brands`
-  MODIFY `id_brand` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_brand` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `tb_cars`
@@ -157,19 +192,11 @@ ALTER TABLE `tb_cars`
 -- AUTO_INCREMENT de la tabla `tb_categories`
 --
 ALTER TABLE `tb_categories`
-  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `tb_brands`
---
-ALTER TABLE `tb_brands`
-  ADD CONSTRAINT `tb_brands_ibfk_1` FOREIGN KEY (`id_category1`) REFERENCES `tb_categories` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tb_brands_ibfk_2` FOREIGN KEY (`id_category2`) REFERENCES `tb_categories` (`id_category`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tb_brands_ibfk_3` FOREIGN KEY (`id_category3`) REFERENCES `tb_categories` (`id_category`);
 
 --
 -- Filtros para la tabla `tb_cars`
