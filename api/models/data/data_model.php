@@ -45,9 +45,20 @@ class DataModel extends ModelHandler
         }
     }
 
+    public function setCategory($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->category = $value;
+            return true;
+        } else {
+            $this->data_error = 'The category ID is incorrect';
+            return false;
+        }
+    }
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
-    } 
+    }
 }

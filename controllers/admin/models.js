@@ -1,6 +1,7 @@
 // ? api path
 const BRAND_API = 'services/admin/brand.php';
 const MODEL_API = 'services/admin/model.php';
+const CATEGORY_API = "services/admin/category.php";
 // ? search form const
 const SEARCH_FORM = document.getElementById('searchForm');
 // ? table constants
@@ -15,7 +16,8 @@ const PICTURE_BRAND = document.getElementById('pictureBrand');
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_MODEL = document.getElementById('idModel'),
     NAME_MODEL = document.getElementById('nameModel'),
-    BRAND_MODEL = document.getElementById('brandModel');
+    BRAND_MODEL = document.getElementById('brandModel'),
+    CATEGORY_MODEL = document.getElementById('categoryModel');
 // ? type table const
 let TABLE_TYPE = 1;
 
@@ -56,6 +58,7 @@ const openCreate = () => {
     SAVE_FORM.reset();
     MODAL_TITLE.textContent = 'Add new brand model';
     fillSelect(BRAND_API, 'readAll', 'brandModel');
+    fillSelect(CATEGORY_API, 'readAll', 'categoryModel');
 };
 
 const changeTableType = (value) => {
@@ -84,6 +87,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                         <tr>
                             <th>Model name</th>
                             <th>Brand name</th>
+                            <th>Category</th>
                             <th>Picture</th>
                             <th>Actions</th>
                         </tr>
@@ -100,6 +104,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             <tr class="table-light">
                 <td>${row.name_model}</td>
                 <td>${row.name_brand}</td>
+                <td>${row.name_category}</td>
                 <td><img src="${SERVER_URL}images/brand/${row.picture_brand}" alt="Picture error" class="img-fluid" style="width: 200px"></td>
                 <td><button type="button" class="btn btn-warning m-1" onClick="openUpdate(${row.id_model})"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-danger m-1" onClick="openDelete(${row.id_model})"><i class="bi bi-trash"></i></button>
@@ -114,7 +119,7 @@ const fillTable = async (form = null, TABLE_TYPE) => {
             console.log('die end here');
             TABLE_BODY = document.getElementById("tableBody");
             DATA.dataset.forEach(row => {
-                TABLE_BODY.innerHTML+=`
+                TABLE_BODY.innerHTML += `
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                     <div class="card w-100 d-flex flex-column">
                         <div class="d-flex justify-content-center align-items-center p-3">
@@ -122,8 +127,12 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                         </div>
                         <div class="card-body text-center d-flex flex-column justify-content-between">
                             <div>
-                                <h5 class="card-title">${row.name_model}</h5>
+                                <h5 class="card-title">Name model</h5>
+                                <p class="card-text">${row.name_model}</p>
+                                <h5 class="card-title">Name brand</h5>
                                 <p class="card-text">${row.name_brand}</p>
+                                <h5 class="card-title">Category</h5>
+                                <p class="card-text">${row.name_category}</p>
                             </div>
 
                             <div class="mt-3">
@@ -133,18 +142,17 @@ const fillTable = async (form = null, TABLE_TYPE) => {
                         </div>
                     </div>
                 </div>`
-                ;
+                    ;
             })
         }
         ROWS_FOUND.textContent = DATA.message;
-
     } else {
         ROWS_FOUND.textContent = DATA.error;
         sweetAlert(2, DATA.error);
     }
 }
 
-const openUpdate = async(id) =>{
+const openUpdate = async (id) => {
     const RESPONSE = await confirmAction('Do you want to update the model information?');
     if (RESPONSE.isConfirmed) {
         const FORM = new FormData();
@@ -152,21 +160,21 @@ const openUpdate = async(id) =>{
         const DATA = await fetchData(MODEL_API, 'readOne', FORM);
         if (DATA.status) {
             SAVE_MODAL.show();
-            MODAL_TITLE.textContent='Update information';
+            MODAL_TITLE.textContent = 'Update information';
             SAVE_FORM.reset();
 
             const ROW = DATA.dataset;
             ID_MODEL.value = ROW.id_model;
-            NAME_MODEL.value= ROW.name_model;
+            NAME_MODEL.value = ROW.name_model;
             fillSelect(BRAND_API, 'readAll', 'brandModel', parseInt(ROW.id_brand));
-
+            fillSelect(CATEGORY_API, 'readAll', "categoryModel", parseInt(ROW.id_category));
         } else {
-        sweetAlert(2, DATA.error);
+            sweetAlert(2, DATA.error);
         }
     }
 }
 
-const openDelete = async(id)=>{
+const openDelete = async (id) => {
     const RESPONSE = await confirmAction('Do you want to delete the model information?');
     if (RESPONSE.isConfirmed) {
         const FORM = new FormData();
