@@ -56,6 +56,16 @@ if ($_GET['action']) {
                 }
                 break;
 
+            case 'readByBrand':
+                if (!$model->setBrand($_POST['idBrand'])) {
+                    $result['error'] = $model->getDataError();
+                } elseif ($result['dataset'] = $model->readByBrand()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Currently there are no models for this brand';
+                }
+                break;
+
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (

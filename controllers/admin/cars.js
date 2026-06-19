@@ -25,6 +25,16 @@ const SAVE_FORM = document.getElementById('saveForm'),
 // ? type table const
 let TABLE_TYPE = 1;
 
+INPUT_PICTURE_CAR.addEventListener('change', function (event) {
+    if (event.target.files && event.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            PICTURE_BRAND.src = event.target.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
     MAIN_TITLE.textContent = 'Cars management';
@@ -44,8 +54,7 @@ const changeTableType = (value) => {
 };
 
 const fillTable = async (form = null, TABLE_TYPE) => {
-    CONTENT_CAR.innerHTML = '';
-    ROWS_FOUND.textContent = "";
+    CONTENT_CAR.innerHTML = ''; ROWS_FOUND.textContent = "";
 
     form ? (action = "searchRows") : (action = "readAll");
 
@@ -83,11 +92,13 @@ const openCreate = async () => {
 }
 
 BRAND_CAR.addEventListener('change', async () => {
-
-    const tipo = BRAND_CAR.value;
-
-    const defaultOption = document.createElement('option');
-    defaultOption.textContent = 'First select a brand';
-    defaultOption.selected = true;
-    defaultOption.disabled = true;
+    const brandId = BRAND_CAR.value;
+    console.log('Marca seleccionada:', brandId);
+    if (brandId && brandId !== 'null') {
+        const FORM = new FormData();
+        FORM.append('idBrand', brandId);
+        fillSelect(MODEL_API, 'readByBrand', 'modelCar', FORM);
+    } else {
+        document.getElementById('modelCar').innerHTML = '<option selected>First select a brand</option>';
+    }
 });

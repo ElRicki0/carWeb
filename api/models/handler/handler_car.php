@@ -9,9 +9,6 @@ class CarHandler
     protected $year = null;
     protected $color = null;
     protected $status = null;
-    protected $brand = null;
-    protected $created_at = null;
-    protected $edited_at = null;
     protected $picture = null;
 
     const PICTURE_PATH = '../../images/car/';
@@ -25,7 +22,6 @@ class CarHandler
                     `year_car`,
                     `color_car`,
                     `status_car`,
-                    `id_brand`,
                     `picture_car`
                 )
                 VALUES(
@@ -33,9 +29,9 @@ class CarHandler
                     ?,
                     ?,
                     ?,
-                    ?,
-                    ?)';
-        $params = array($this->model, $this->year, $this->color, $this->status, $this->brand, $this->picture);
+                    ?
+                )';
+        $params = array($this->model, $this->year, $this->color, $this->status, $this->picture);
         return DATABASE::executeRow($sql, $params);
     }
 

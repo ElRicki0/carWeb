@@ -86,6 +86,19 @@ class ModelHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readByBrand()
+    {
+        $sql = 'SELECT
+                    `id_model`,
+                    `name_model`
+                FROM
+                    `tb_models`
+                WHERE
+                    id_brand = ?';
+        $params = array($this->brand);
+        return Database::getRows($sql, $params);
+    }
+
     public function updateRow()
     {
         $sql = 'UPDATE

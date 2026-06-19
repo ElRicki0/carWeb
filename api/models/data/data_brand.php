@@ -57,7 +57,7 @@ class BrandData extends BrandHandler
             $this->status = $value;
             return true;
         } else {
-            $this->data_error = 'User status is invalid';
+            $this->data_error = 'Brand visualization is invalid';
             return false;
         }
     }

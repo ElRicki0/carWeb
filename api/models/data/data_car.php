@@ -20,17 +20,14 @@ class CarData extends CarHandler
     }
 
     // ? se valida el nombre como tipo alfabético
-    public function setModel($value, $min = 2, $max = 50)
+    public function setModel($value)
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'The model name must be an alphabetical value';
+        if (!Validator::validateNaturalNumber($value)) {
+            $this->data_error = 'The model ID is incorrect';
             return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
+        } else {
             $this->model = $value;
             return true;
-        } else {
-            $this->data_error = 'The model name length must be between ' . $min . ' and ' . $max;
-            return false;
         }
     }
 
@@ -70,17 +67,6 @@ class CarData extends CarHandler
         }
     }
 
-    public function setBrand($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->brand = $value;
-            return true;
-        } else {
-            $this->data_error = 'The id Brand is incorrect';
-            return false;
-        }
-    }
-
     // ? se valida el archivo de imagen que pese menos de 2 megas y que sea formato .jpg o .png
     public function setPicture($file, $filename = null)
     {
@@ -90,6 +76,9 @@ class CarData extends CarHandler
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
             return false;
+        } elseif (is_array($filename) && isset($filename['picture_car'])) {
+            $this->picture = $filename['picture_car'];
+            return true;
         } elseif ($filename) {
             $this->picture = $filename;
             return true;
