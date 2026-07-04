@@ -53,7 +53,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $brand->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Error to read the category';
+                    $result['error'] = 'Error to read the record';
                 }
                 break;
             case 'updateRow':
