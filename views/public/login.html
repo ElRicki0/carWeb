@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../resources/svg/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <main>
+        <div class="vh-100 row g-0">
+            <div class="col-lg-6 d-flex align-items-center justify-content-center"
+                style="background-image: url(./../../resources/img/background/loginPicture.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
+            </div>
+            <div class="col-lg-6 d-flex align-items-center justify-content-center">
+
+                <form id="loginForm">
+                    <h1 id="mainTitle" class="text-center">Login</h1>
+                    <div class="car-body p-5 rounded shadow w-auto">
+                        <div class="input-group input-group-lg mt-5">
+                            <span class="input-group-text" id="userPublic">Username</span>
+                            <input type="text" class="form-control" aria-label="User name here...">
+                        </div>
+                        <div class="input-group input-group-lg mt-5">
+                            <span class="input-group-text" id="passwordPublic">Password</span>
+                            <input type="password" class="form-control" aria-label="User name here...">
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mt-3">
+                                    <a class='text-primary text-decoration-none fs-5' href="./template.html">Forgot
+                                        password?</a>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mt-3">
+                                    <a class='text-success text-decoration-none fs-5' href="./template.html">Create an account</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 d-flex align-items-center justify-content-center">
+                            <a name="loginPublic" id="loginPublic" class="btn btn-primary px-4 fs-4" href="#"
+                                role="button">Login</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+        <!-- Llamada al framework y librería de mensajes -->
+        <script src="../../resources/js/bootstrap/bootstrap.min.js"></script>
+        <script src="../../resources/js/sweetAlert2/sweetalert2@11.js"></script>
+        <!-- Llamada al controlador general de la aplicación -->
+        <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+        <!-- Llamada al controlador del sitio privado -->
+        <script type="text/javascript" src="../../controllers/utils/public.js"></script>
+        <!-- ? Llamada al controlador de la página web -->
+    </main>
+</body>
+
+</html>
