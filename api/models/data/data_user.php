@@ -101,4 +101,81 @@ class UserData extends UserHandler
             return false;
         }
     }
+
+    // ? se valida el nombre como tipo alfabético
+    public function setMiddlename($value, $min = 2, $max = 50)
+    {
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'The middlename must be an alphabetical value';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->middlename = $value;
+            return true;
+        } else {
+            $this->data_error = 'The middlename length must be between ' . $min . ' and ' . $max;
+            return false;
+        }
+    }
+
+    // ? se valida el nombre como tipo alfabético
+    public function setLastname($value, $min = 2, $max = 50)
+    {
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'The lastname must be an alphabetical value';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->lastname = $value;
+            return true;
+        } else {
+            $this->data_error = 'The lastname length must be between ' . $min . ' and ' . $max;
+            return false;
+        }
+    }
+
+    // se valida una longitud de 8 caracteres y se encripta con hash de php
+    public function setPassword($value)
+    {
+        if (Validator::validatePassword($value)) {
+            $this->password = password_hash($value, PASSWORD_DEFAULT);
+            return true;
+        } else {
+            $this->data_error = Validator::getPasswordError();
+            return false;
+        }
+    }
+
+    // se valida el estado de el administrador
+
+    public function setStatus($value)
+    {
+        if (Validator::validateBoolean($value)) {
+            $this->status = $value;
+            return true;
+        } else {
+            $this->data_error = 'User status is invalid';
+            return false;
+        }
+    }
+
+    // ? se obtiene el tipo de archivo en la base de datos
+    public function setFilename()
+    {
+        if ($data = $this->readFilename()) {
+            $this->filename = $data['imagen_user'];
+            return true;
+        } else {
+            $this->data_error = 'User picture not found';
+            return false;
+        }
+    }
+
+    // Método para obtener el error de los datos.
+    public function getDataError()
+    {
+        return $this->data_error;
+    }
+    public function getFilename()
+    {
+        return $this->filename;
+    }
 }

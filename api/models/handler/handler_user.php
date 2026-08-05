@@ -47,7 +47,7 @@ class UserHandler
     // todo métodos para alteraciones de registros SCRUD (SEARCH, CREATE, READ, UPDATE, DELETE)
 
     // ? métodos para la creación de usuario corriente
-    public function createRow()
+    public function signUp()
     {
         $sql = 'INSERT INTO `tb_users`(
                     `username_user`,
@@ -71,5 +71,14 @@ class UserHandler
                 )';
         $params = array($this->username,  $this->email, $this->picture, $this->phone, $this->name, $this->middlename, $this->lastname, $this->password);
         return Database::executeRow($sql, $params);
+    }
+
+    // Cambia la contraseña del administrador actual y actualiza la fecha y el código.
+    public function readFilename()
+    {
+        $sql = 'SELECT `picture_administrator` FROM `tb_administrator`
+                WHERE  id_administrator = ?';
+        $params = array($_SESSION['idAdministrator']);
+        return Database::getRow($sql, $params);
     }
 }
