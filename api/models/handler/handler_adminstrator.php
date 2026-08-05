@@ -17,7 +17,6 @@ class AdministratorHandler
     protected $status = null;
     protected $created = null;
     protected $edited = null;
-    // protected $phone = null;
 
     // Constante para establecer la ruta de las imágenes.
     const PICTURE_PATH = '../../images/admin/';
