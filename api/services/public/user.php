@@ -27,13 +27,13 @@ if (isset($_GET['action'])) {
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$user->setUsername($_POST['usernameUser']) or
-                    !$user->setEmail($_POST['emailUser']) or
                     !$user->setPicture($_POST['pictureUser']) or
-                    !$user->setPhone($_POST['phoneUser']) or
                     !$user->setName($_POST['nameUser']) or
                     !$user->setMiddlename($_POST['middlenameUser']) or
                     !$user->setLastname($_POST['lastnameUser']) or
+                    !$user->setEmail($_POST['emailUser']) or
+                    !$user->setPhone($_POST['phoneUser']) or
+                    !$user->setUsername($_POST['usernameUser']) or
                     !$user->setPassword($_POST['passwordUser'])
                 ) {
                     $result['error'] = $user->getDataError();
@@ -45,7 +45,6 @@ if (isset($_GET['action'])) {
                 } else {
                     $result['error'] =  'A problem occurred while registering the user';
                 }
-
                 break;
             default:
                 $result['error'] = 'Action not available outside the session';

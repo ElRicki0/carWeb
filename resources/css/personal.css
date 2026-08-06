@@ -1,0 +1,6 @@
+.glass-card {
+    background: rgba(255, 255, 255, 0.25); /* Transparencia */
+    backdrop-filter: blur(10px);           /* Difuminado */
+    -webkit-backdrop-filter: blur(10px);   /* Safari */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
