@@ -51,6 +51,15 @@ if (isset($_GET['action'])) {
                     $result['error'] =  'A problem occurred while registering the user';
                 }
                 break;
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                if ($user->checkUser($_POST['usernameUser'], $_POST['passwordUser'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Login Successfully';
+                } else {
+                    $result['error'] = 'Invalid username or password';
+                }
+                break;
             default:
                 $result['error'] = 'Action not available outside the session';
                 break;

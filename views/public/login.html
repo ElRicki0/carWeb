@@ -28,12 +28,12 @@
 
                         <div class="input-group input-group-lg mt-3">
                             <span class="input-group-text">Username</span>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="usernameUser" id="usernameUser">
                         </div>
 
                         <div class="input-group input-group-lg mt-3">
                             <span class="input-group-text">Password</span>
-                            <input type="password" class="form-control">
+                            <input type="password" class="form-control" name="passwordUser" id="passwordUser">
                         </div>
 
                         <div class="row mt-3">
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="mt-4 d-flex justify-content-center">
-                            <a class="btn btn-primary px-4 fs-4" href="#">Login</a>
+                            <button class="btn btn-primary w-100 fs-3" type="submit">Login</button>
                         </div>
 
                     </div>
@@ -67,6 +67,8 @@
         <!-- Llamada al controlador del sitio privado -->
         <script type="text/javascript" src="../../controllers/utils/public.js"></script>
         <!-- ? Llamada al controlador de la página web -->
+        <script type="text/javascript" src="../../controllers/public/login.js"></script>
+
     </main>
 </body>
 
