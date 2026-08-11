@@ -52,7 +52,6 @@ class UserHandler
         $sql = 'INSERT INTO `tb_users`(
                     `username_user`,
                     `email_user`,
-                    `picture_user`,
                     `phone_user`,
                     `name_user`,
                     `middlename_user`,
@@ -66,10 +65,9 @@ class UserHandler
                     ?,
                     ?,
                     ?,
-                    ?,
                     ?
                 )';
-        $params = array($this->username,  $this->email, $this->picture, $this->phone, $this->name, $this->middlename, $this->lastname, $this->password);
+        $params = array($this->username,  $this->email, $this->phone, $this->name, $this->middlename, $this->lastname, $this->password);
         return Database::executeRow($sql, $params);
     }
 

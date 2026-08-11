@@ -14,52 +14,58 @@
     style="margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background-image: url('../../resources/img/background/signupPicture.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; overflow-x: hidden;">
     <main style="width: 100%; padding: 2rem 1rem;">
         <div class="d-flex align-items-center justify-content-center">
-            <form id="signupForm" style="width: 100%; max-width: 540px;">
-                <div class="card glass-card p-4 rounded shadow w-100 ">
+            <form id="signupForm" style="width: 100%; max-width: 800px;">
+                <div class="card glass-card p-4 rounded shadow">
+                    <h1 id="mainTitle" class="text-center card-title"></h1>
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <h5 class="mt-4">Personal Information</h5>
 
-                    <h1 id="" class="text-center card-title">Signup</h1>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">First name</span>
+                                <input type="text" class="form-control" name="nameUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Middle name</span>
+                                <input type="text" class="form-control" name="middlenameUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Last name</span>
+                                <input type="text" class="form-control" name="lastnameUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Email</span>
+                                <input type="email" class="form-control" name="emailUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Phone number</span>
+                                <input type="text" class="form-control" name="phoneUser">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <h5 class="mt-4">Account Details</h5>
 
-                    <h5 class="mt-4">Personal Information</h5>
-
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">First name</span>
-                        <input type="text" class="form-control" name="nameUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Middle name</span>
-                        <input type="text" class="form-control" name="middleUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Last name</span>
-                        <input type="text" class="form-control" name="lastUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Email</span>
-                        <input type="email" class="form-control" name="emailUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Phone number</span>
-                        <input type="text" class="form-control" name="phoneUser">
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Username</span>
+                                <input type="text" class="form-control" name="usernameUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Password</span>
+                                <input type="password" class="form-control" name="passwordUser">
+                            </div>
+                            <div class="input-group input-group-lg mt-4">
+                                <span class="input-group-text">Repeat password</span>
+                                <input type="password" class="form-control" name="password2User">
+                            </div>
+                        </div>
                     </div>
 
-                    <h5 class="mt-4">Account Details</h5>
 
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Username</span>
-                        <input type="text" class="form-control" name="usernameUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Password</span>
-                        <input type="password" class="form-control" name="passwordUser">
-                    </div>
-                    <div class="input-group input-group-lg mt-4">
-                        <span class="input-group-text">Repeat password</span>
-                        <input type="password" class="form-control" name="password2User">
-                    </div>
+
+
 
                     <div class="mt-4 d-flex justify-content-center ">
-                        <button type="submit" class="btn btn-primary fs-5"
-                            id="buttonSubmit">Signup</button>
+                        <button type="submit" class="btn btn-primary fs-5" id="buttonSubmit">Signup</button>
 
                     </div>
                     <div class="mt-4 d-flex justify-content-center">
