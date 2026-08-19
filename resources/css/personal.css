@@ -4,3 +4,29 @@
     -webkit-backdrop-filter: blur(10px);   /* Safari */
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+.carousel-item img {
+    height: 500px;        /* Ajusta la altura que quieras */
+    object-fit: cover;    /* Mantiene proporción sin distorsión */
+}
+
+/* Pantallas medianas (md) */
+@media (max-width: 992px) {
+    .carousel-item img {
+        height: 350px;
+    }
+}
+
+/* Pantallas pequeñas (sm) */
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 250px;
+    }
+}
+
+/* Pantallas muy pequeñas (xs) */
+@media (max-width: 576px) {
+    .carousel-item img {
+        height: 180px;
+    }
+}

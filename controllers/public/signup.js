@@ -1,8 +1,16 @@
 SIGNUP_FORM = document.getElementById('signupForm');
 
-document.addEventListener('DOMContentLoaded', async ()=> {
-    MAIN_TITLE.textContent='Signup'
+document.addEventListener('DOMContentLoaded', async () => {
+    MAIN_TITLE.textContent = 'Signup'
     loadTemplate();
+    
+    const DATA = await fetchData(USER_API, 'getUser');
+    // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
+    if (DATA.session) {
+        location.href = 'index.html';
+    } else {
+        sweetAlert(4, DATA.error, 'logIn.html');
+    }
 });
 
 SIGNUP_FORM.addEventListener('submit', async (event) => {
